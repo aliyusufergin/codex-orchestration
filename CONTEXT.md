@@ -104,7 +104,7 @@ The cheapest model in the capability snapshot at its default reasoning effort, w
 _Avoid_: default lane, baseline
 
 **Scrutiny floor**:
-The weakest reviewer model and reasoning effort allowed at a Consequence level.
+The minimum reviewer model and reasoning effort for a Consequence level, subject to an explicit user preference recorded as an exception.
 _Avoid_: review baseline, review lane
 
 ### Verification
@@ -165,7 +165,7 @@ _Avoid_: collision point, conflict step, checkpoint
 
 - The **Parent** holds all six **Decision rights**.
 - **Difficulty** decides the model and effort for a piece of work: the capability it needs picks the model, the reasoning depth it needs picks the effort. **Consequence** decides its **Scrutiny**. Neither stands in for the other.
-- Routing begins at the **Starting point** and moves to anything stronger only with a one-line reason; a **Review** never goes below the **Scrutiny floor** for its **Consequence**.
+- Routing begins at the **Starting point** and moves to anything stronger only with a one-line reason; a **Review** meets the **Scrutiny floor** for its **Consequence** unless an explicit user preference lowers it, recorded in the **Acceptance report** as `by user preference`.
 - Every **Subagent** starts from a **Pinned spawn** made by the **Parent**.
 - A **Contract** describes one piece of **Bounded work** and names its **Write scope**.
 - **Bounded work** goes to a **Subagent** unless it qualifies for **Direct execution**; a **Parent-only run** happens only when no **Pinned spawn** is possible.

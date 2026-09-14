@@ -108,5 +108,6 @@ Only an explicit preference to lower a floor or remove a review authorises that
 exception. Preserve the original Consequence and floor, record the changed
 requirement in the plan, and label each such exception `by user preference` in
 the acceptance report with the preference and the review actually run or skipped.
-Record other explicit relaxations of Scrutiny the same way. A label by itself
-does not grant an exception.
+When a high-Consequence review still runs, its model must differ from the
+execution models even if the user lowered its floor. A label by itself does not
+grant an exception.
