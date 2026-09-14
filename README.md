@@ -1,1 +1,68 @@
-# codex-orchestration
+# Codex Orchestration
+
+A user-invoked Codex plugin for planning, routing, implementing, verifying, and
+reviewing work with GPT-6 Astra and native Codex subagents.
+
+This initial package preserves Astra Advisor's orchestration behavior. The
+[glossary](CONTEXT.md) and [design decisions](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
+describe the intended evolution, which is implemented in subsequent tickets.
+
+## Install
+
+In a Codex host with plugin support:
+
+```sh
+codex plugin marketplace add aliyusufergin/codex-orchestration --ref main
+codex plugin add codex-orchestration@codex-orchestration
+```
+
+Start a fresh session, select GPT-6 Astra at your chosen supported effort, and invoke:
+
+```text
+Use $codex-orchestration:orchestration to plan, build, verify, and review this work.
+```
+
+The skill loads only when explicitly invoked. Its Codex UI metadata sets
+`policy.allow_implicit_invocation: false`.
+
+The Parent uses native subagents when the host exposes explicit model and reasoning
+effort controls. Requested settings are distinguished from confirmed runtime
+settings. See the [operations reference](plugins/codex-orchestration/skills/orchestration/references/operations.md)
+for routing, review, and host limitations.
+
+## Update
+
+```sh
+codex plugin marketplace upgrade codex-orchestration
+codex plugin add codex-orchestration@codex-orchestration
+```
+
+Start a new session after updating so it picks up the installed skill.
+
+## Local development
+
+Install this checkout as the marketplace to try changes before publication:
+
+```sh
+codex plugin marketplace add /absolute/path/to/codex-orchestration
+codex plugin add codex-orchestration@codex-orchestration
+```
+
+Run the same package checks used by CI (Python 3.10+ required):
+
+```sh
+sh plugins/codex-orchestration/scripts/verify.sh
+```
+
+The verifier checks the manifest, marketplace, local Markdown links, license and
+attribution, explicit invocation metadata, and absence of static role files.
+
+## Attribution
+
+Forked from [Astra Advisor](https://github.com/DannyMac180/astra-advisor) by Daniel
+McAteer, importing its Git history through `c72d328` (v0.2.0).
+**codex-orchestrator** (`8f559d6`, v0.4.0 unreleased) is a design reference for this
+fork; its code is not imported by this package change.
+
+Distributed under the [MIT license](LICENSE), retaining Daniel McAteer's copyright
+notice.
