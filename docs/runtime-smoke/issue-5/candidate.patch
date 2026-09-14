@@ -2,18 +2,13 @@ diff --git a/greeting.py b/greeting.py
 index 1e21eeb..6e6f438 100644
 --- a/greeting.py
 +++ b/greeting.py
-@@ -1,2 +1,3 @@
- def greet(name: str) -> str:
+@@ -1,0 +2 @@ def greet(name: str) -> str:
 +    name = name.strip() or "world"
-     return f"Hello, {name}!"
 diff --git a/test_greeting.py b/test_greeting.py
 index 3113465..7252fd8 100644
 --- a/test_greeting.py
 +++ b/test_greeting.py
-@@ -7,6 +7,18 @@ class GreetingTests(unittest.TestCase):
-     def test_greets_named_person(self):
-         self.assertEqual(greet("Ada"), "Hello, Ada!")
- 
+@@ -9,0 +10,12 @@ class GreetingTests(unittest.TestCase):
 +    def test_trims_surrounding_whitespace(self):
 +        self.assertEqual(greet("  Ada  "), "Hello, Ada!")
 +
@@ -26,6 +21,3 @@ index 3113465..7252fd8 100644
 +    def test_preserves_internal_whitespace(self):
 +        self.assertEqual(greet("Ada Lovelace"), "Hello, Ada Lovelace!")
 +
- 
- if __name__ == "__main__":
-     unittest.main()

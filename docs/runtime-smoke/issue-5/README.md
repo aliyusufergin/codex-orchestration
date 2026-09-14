@@ -76,7 +76,9 @@ The subagent returned these results, all from the task directory:
 | `python3 -m py_compile greeting.py test_greeting.py` | exit 0 |
 
 Its [candidate diff](candidate.patch) adds `name = name.strip() or "world"` and
-four public-behaviour tests. The Parent inspected the diff and committed only
+four public-behaviour tests. The artifact uses `git diff --unified=0` so blank
+context lines do not introduce trailing spaces into the evidence file; replay
+it with `git apply --unidiff-zero`. The Parent inspected the diff and committed only
 `greeting.py` and `test_greeting.py`, without re-running the subagent's checks:
 
 ```sh
