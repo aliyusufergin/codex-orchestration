@@ -3,7 +3,7 @@ name: orchestration
 description: "Plan, route, implement, verify, and review substantial work with GPT-6 Astra and dynamically selected native Codex subagents."
 ---
 
-# Codex Orchestration Orchestration
+# Codex Orchestration
 
 Act as the architect and acceptance owner. Keep the primary session on GPT-6 Astra
 at the effort selected by the user. Astra owns intent, architecture, decomposition,

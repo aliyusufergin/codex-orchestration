@@ -1,5 +1,5 @@
 interface:
-  display_name: "Codex Orchestration Orchestration"
+  display_name: "Codex Orchestration"
   short_description: "Route and review work with Astra dynamically"
   default_prompt: "Use $codex-orchestration:orchestration to plan, build, verify, and review this work."
 policy:
