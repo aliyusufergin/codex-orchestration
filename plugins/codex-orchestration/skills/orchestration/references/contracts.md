@@ -29,7 +29,10 @@ Use the same fields with write scope `none`. Include:
 - The originating acceptance criteria, relevant standards, and the validation
   commands and results returned for this candidate.
 - The review's Consequence and selected Scrutiny, plus confirmation that this
-  subagent did no work on the candidate.
+  subagent did no work on the candidate. Include the snapshot floor, effective
+  requirement after preferences, and the reason for any stronger selection.
+  At high Consequence, name the execution models and show that this review uses
+  a different model; identify whether this is the first or second review.
 - The checks it may run. It may inspect and re-run checks but changes no tracked
   files and implements no corrections. Check the candidate SHA and tracked status
   before and after review and return both observations.

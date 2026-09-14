@@ -5,8 +5,11 @@ subagents, reviewing a committed candidate, and accepting it with evidence.
 
 The plan-to-acceptance path follows the
 [glossary](CONTEXT.md) and [design decisions](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
-for a single change at normal Consequence. Further execution paths are being
-implemented in subsequent tickets.
+for a single change at low, normal or high Consequence. Review requirements
+follow Consequence, and routing and checking preferences in the request or
+AGENTS.md shape the plan. Explicit preferences that weaken review are labelled
+in the acceptance report. Further execution paths are being implemented in
+subsequent tickets.
 
 ## Install
 

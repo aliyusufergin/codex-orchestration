@@ -7,6 +7,8 @@ evidence or an explicit `not run`, `not needed` or `unobservable` and its reason
 
 Show before the first spawn; show revisions when the plan changes. This report
 holds the plan, without a separate orchestration state file.
+For a permitted skip, put the reason in the work's review requirement and omit
+that review's spawn entry. Each planned second review gets its own entry.
 
 ```text
 PLAN REPORT
@@ -18,6 +20,8 @@ work:
     write scope: <none or paths>
     dependencies: <none or task names>
     Consequence: <low | normal | high, with reason>
+    review requirement: <required or skipped with reason; snapshot model/effort floor;
+                         effective requirement after preferences; model difference if high>
     requested settings: <model> / <effort>; fork_turns: "none"
     selection reason: <starting point, or capability/depth reason for departing>
     validation: <commands and expected outcomes>
@@ -28,6 +32,9 @@ review:
     Consequence: <level>
     requested settings: <model> / <effort>; fork_turns: "none"
     selection reason: <scrutiny floor, or reason for stronger selection>
+    independence: <no work on candidate; if high, compare with execution models>
+    second review: <separate task entry, or not planned>
+preferences: <request/AGENTS.md preferences and routing/checking effects, or none>
 direct execution: <none, or work and why delegation costs more>
 ```
 
@@ -41,6 +48,10 @@ candidate unchanged: <HEAD before/after review, index and working-tree evidence>
 validation: <commands, exit statuses and results; who ran them>
 integration check: <evidence, or not needed because only one change was made>
 reviews: <one entry per review/axis, with findings and residual risk>
+review skips: <work, Consequence and one-line reason, or none>
+second reviews: <per high-Consequence piece: review entry, or not run>
+preferences: <applied preferences and actual routing/checking;
+              label each relaxed floor or removed review "by user preference">
 open blocking findings: <must be none for acceptance>
 open non-blocking findings: <locations and evidence, or none>
 spawn audit:
