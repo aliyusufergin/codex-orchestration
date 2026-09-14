@@ -126,7 +126,7 @@ The commit the Parent records when a run starts, against which every review of t
 _Avoid_: starting revision
 
 **Candidate**:
-The commit, made by the Parent, that is reviewed and accepted; any change to it makes a new candidate.
+The commit, made by the Parent, submitted for Acceptance and any required Review; any change to it makes a new candidate.
 _Avoid_: final patch, accumulated diff, working-tree revision
 
 **Finding**:
@@ -170,11 +170,11 @@ _Avoid_: collision point, conflict step, checkpoint
 - A **Contract** describes one piece of **Bounded work** and names its **Write scope**.
 - **Bounded work** goes to a **Subagent** unless it qualifies for **Direct execution**; a **Parent-only run** happens only when no **Pinned spawn** is possible.
 - An **Escalation** hands a **Decision right** back to the **Parent**.
-- Work passes through **Validation**, an **Integration check** when changes were combined, **Review**, and **Acceptance** of one **Candidate**.
+- Work passes through **Validation**, an **Integration check** when changes were combined, any **Review** required by **Scrutiny**, and **Acceptance** of one **Candidate**. A permitted review skip is recorded in the **Acceptance report** with its reason.
 - Only the **Parent** changes version-control state: each **Candidate** is a commit on top of the run's **Base commit**, and every **Review** compares against that **Base commit**.
 - A **Review** goes to a **Subagent** that did no work on the **Candidate**.
 - A blocking **Finding** keeps a **Candidate** from **Acceptance** until a **Correction** resolves it or a new **Review** overturns it.
-- After a **Correction**, normal **Consequence** gets a **Follow-up review** and high **Consequence** gets a new **Review** of the whole **Candidate**.
+- After a **Correction**, when **Scrutiny** requires review, normal **Consequence** gets a **Follow-up review** and high **Consequence** gets a new **Review** of the whole **Candidate**.
 - The **Parent** resolves a **Workflow**'s **Touchpoints** before handing work to a **Subagent**; a workflow's own review inside a subagent counts as **Validation**.
 - The **Spawn audit** compares **Requested settings** with **Realized settings** and feeds the **Acceptance report**.
 

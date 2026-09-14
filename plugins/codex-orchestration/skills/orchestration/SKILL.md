@@ -63,7 +63,7 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    no tracked files. This is a contract constraint, not a claim of sandbox isolation.
 6. **Acceptance.** Read the candidate's diff, evidence and review findings.
    Acceptance is blocked while any blocking finding is open. A correction is
-   bounded work and makes a new candidate requiring review; direct execution
+   bounded work and makes a new candidate subject to the plan's Scrutiny; direct execution
    uses the same cost exception. Before accepting, confirm `git rev-parse HEAD`
    still equals the reviewed candidate and that the index and working tree have
    no changes to the candidate. Movement or edits invalidate that review for
