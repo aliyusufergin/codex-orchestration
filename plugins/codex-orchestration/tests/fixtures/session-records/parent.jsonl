@@ -1,0 +1,2 @@
+{"timestamp": "2026-09-14T07:43:16.990Z", "type": "session_meta", "payload": {"session_id": "parent", "id": "parent", "timestamp": "2026-09-14T07:36:02.270Z", "cwd": "/tmp/disposable-repo", "cli_version": "0.154.0", "thread_source": "user"}}
+{"timestamp": "2026-09-14T07:43:17.597Z", "type": "turn_context", "payload": {"turn_id": "turn-5", "root_turn_id": "turn-5", "cwd": "/tmp/disposable-repo", "model": "gpt-6-astra", "effort": "medium", "sandbox_policy": {"type": "workspace-write", "network_access": false, "exclude_tmpdir_env_var": false, "exclude_slash_tmp": false}}}

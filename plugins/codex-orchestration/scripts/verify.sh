@@ -5,7 +5,7 @@ script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 plugin_dir=$(CDPATH= cd -- "$script_dir/.." && pwd)
 repo_dir=$(CDPATH= cd -- "$plugin_dir/../.." && pwd)
 
-exec python3 - "$repo_dir" <<'PY'
+python3 - "$repo_dir" <<'PY'
 from __future__ import annotations
 
 import json
@@ -217,3 +217,5 @@ if errors:
 print("VERIFY PASSED")
 print("manifest, marketplace, skill references, README links, license, attribution, user invocation, CI, and static-role boundaries are valid")
 PY
+
+python3 -m unittest discover -s "$plugin_dir/tests" -p 'test_*.py'

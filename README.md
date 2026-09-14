@@ -56,6 +56,9 @@ sh plugins/codex-orchestration/scripts/verify.sh
 
 The verifier checks the manifest, marketplace, local Markdown links, license and
 attribution, explicit invocation metadata, and absence of static role files.
+It also runs the JSON command tests for the
+[spawn audit](plugins/codex-orchestration/scripts/spawn-audit.md), which compares
+planned subagents with the host's session records and reports Parent effort.
 
 ## Attribution
 
