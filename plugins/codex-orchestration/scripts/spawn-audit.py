@@ -103,6 +103,19 @@ class Session:
         return result, errors
 
 
+def settings_report(turns: list[dict], errors: list[dict]) -> dict:
+    models = {turn["model"] for turn in turns}
+    efforts = {turn["effort"] for turn in turns}
+    observable = bool(turns) and not errors
+    return {
+        "status": "observable" if observable else "unobservable",
+        "reason": None if observable else (errors[0]["reason"] if errors else "No recorded turns in this run"),
+        "realized_model": next(iter(models)) if len(models) == 1 else None,
+        "realized_effort": next(iter(efforts)) if len(efforts) == 1 else None,
+        "evidence": turns,
+    }
+
+
 def audit(request: dict) -> dict:
     start = timestamp(request["start_time"])
     root = Path(request.get("records_root", Path(os.environ.get("CODEX_HOME", Path.home() / ".codex")) / "sessions"))
@@ -110,6 +123,7 @@ def audit(request: dict) -> dict:
     errors = []
     if not root.is_dir():
         errors.append({"path": str(root), "reason": "Session records directory is missing or unreadable"})
+
     def walk_error(exc: OSError) -> None:
         errors.append({"path": str(exc.filename), "reason": str(exc)})
 
@@ -156,24 +170,22 @@ def audit(request: dict) -> dict:
                    if session.meta.get("agent_path") == "/root/" + task["task_name"]
                    and not session.is_guardian()
                    and session.meta.get("cwd") == request["cwd"]]
-        matched_paths.update(session.path for session in matches)
         if len(matches) != 1:
             planned.append({**task, "status": "unobservable",
                             "reason": "No unique matching session record",
                             "realized_model": None, "realized_effort": None, "evidence": []})
             continue
+        matched_paths.add(matches[0].path)
         turns, turn_errors = matches[0].turns(start)
         errors.extend(turn_errors)
         mismatch = any(turn["model"] != task["requested_model"]
                        or turn["effort"] != task["requested_effort"] for turn in turns)
-        models = {turn["model"] for turn in turns}
-        efforts = {turn["effort"] for turn in turns}
-        status = "mismatch" if mismatch else ("unobservable" if turn_errors or not turns else "confirmed")
-        planned.append({**task, "status": status,
-                        "reason": (turn_errors[0]["reason"] if turn_errors else "No recorded turns in this run") if status == "unobservable" else None,
-                        "realized_model": next(iter(models)) if len(models) == 1 else None,
-                        "realized_effort": next(iter(efforts)) if len(efforts) == 1 else None,
-                        "evidence": turns})
+        summary = settings_report(turns, turn_errors)
+        if mismatch:
+            summary["status"] = "mismatch"
+        elif summary["status"] == "observable":
+            summary["status"] = "confirmed"
+        planned.append({**task, **summary})
     unplanned = []
     host_sessions = []
     for session in children:
@@ -181,25 +193,19 @@ def audit(request: dict) -> dict:
             continue
         turns, turn_errors = session.turns(start)
         errors.extend(turn_errors)
-        models = {turn["model"] for turn in turns}
-        efforts = {turn["effort"] for turn in turns}
         item = {"thread_id": session.meta["id"], "agent_path": session.meta.get("agent_path"),
                 "cwd": session.meta["cwd"], "path": str(session.path),
                 "classification": "host_approval" if session.is_guardian() else "work_subagent",
-                "status": "observable" if turns and not turn_errors else "unobservable",
-                "realized_model": next(iter(models)) if len(models) == 1 else None,
-                "realized_effort": next(iter(efforts)) if len(efforts) == 1 else None,
-                "evidence": turns}
-        if item["status"] == "unobservable":
-            item["reason"] = turn_errors[0]["reason"] if turn_errors else "No recorded turns in this run"
+                **settings_report(turns, turn_errors)}
         (host_sessions if session.is_guardian() else unplanned).append(item)
     parents = [session for session in sessions if session.meta["id"] == parent_id]
-    parent_turns, parent_errors = parents[0].turns(start) if len(parents) == 1 and children else ([], [])
+    has_work_subagents = any(not session.is_guardian() for session in children)
+    parent_turns, parent_errors = parents[0].turns(start) if len(parents) == 1 and has_work_subagents else ([], [])
     errors.extend(parent_errors)
     parent_report = {"thread_id": parent_id, "turns": parent_turns,
                      "status": "observable" if parent_turns and not parent_errors else "unobservable"}
     if not parent_turns or parent_errors:
-        parent_report["reason"] = "No subagents found" if not children else "No unique Parent record with turns in this run"
+        parent_report["reason"] = "No work subagents found" if not has_work_subagents else "No unique Parent record with turns in this run"
     ultra = any(turn["effort"] == "ultra" for turn in parent_turns)
     return {"planned_subagents": planned, "unplanned_subagents": unplanned, "host_sessions": host_sessions,
             "record_errors": errors, "parent": parent_report,

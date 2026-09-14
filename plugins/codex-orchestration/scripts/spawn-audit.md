@@ -57,14 +57,17 @@ at or after the start, including those with a different session directory or
 an unknown task path. `host_sessions` retains guardian records separately with
 `classification: "host_approval"`; these do not count as work subagents or Review.
 Both lists include realized settings and evidence, with an observable/unobservable
-status. Duplicate matches to a planned name make that planned entry unobservable.
+status. Duplicate matches to a planned name make that planned entry unobservable;
+all ambiguous candidates remain in `unplanned_subagents` because none can be
+uniquely assigned to the plan.
 
 `parent` contains its thread id, observable/unobservable status, and `turns`, each
 with model, effort and source evidence. Only turns at or after the run's start
 are included. `parent_ran_at_ultra` is `true` if any readable owning Parent turn
 ran at Ultra, `false` when complete readable Parent evidence contains no Ultra,
 and `null` when unknown. In accordance with ADR 0002, a run with no subagents has
-no Parent effort record. An empty plan still reports any unplanned subagents.
+no Parent effort record, including a run containing only host guardians. An empty
+plan still reports any unplanned subagents.
 
 `record_errors` describes missing, unreadable, or malformed files and directories.
 An empty unplanned list is not proof that no unplanned subagents exist when

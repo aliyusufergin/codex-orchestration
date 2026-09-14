@@ -190,7 +190,12 @@ class SpawnAuditTests(unittest.TestCase):
         rows = self.read_records("smoke_a.jsonl")
         rows[0]["payload"]["id"] = "second-smoke-a"
         self.write_records("duplicate.jsonl", rows)
-        self.assertEqual(self.audit()["planned_subagents"][0]["status"], "unobservable")
+        report = self.audit()
+        self.assertEqual(report["planned_subagents"][0]["status"], "unobservable")
+        self.assertEqual({item["thread_id"] for item in report["unplanned_subagents"]},
+                         {"smoke_a", "second-smoke-a"})
+        self.assertTrue(all(item["realized_model"] == "gpt-5.6-luna"
+                            for item in report["unplanned_subagents"]))
 
     def test_parent_reports_each_turn_and_ultra_only_within_run(self):
         rows = self.read_records("parent.jsonl")
@@ -214,6 +219,21 @@ class SpawnAuditTests(unittest.TestCase):
                 path.unlink()
         report = self.audit()
         self.assertEqual(report["planned_subagents"], [])
+        self.assertEqual(report["unplanned_subagents"], [])
+        self.assertEqual(report["parent"]["turns"], [])
+        self.assertIsNone(report["parent_ran_at_ultra"])
+
+    def test_guardian_only_run_has_no_parent_effort_record(self):
+        guardian = self.read_records("smoke_a.jsonl")
+        guardian[0]["payload"].update(id="guardian", agent_path=None,
+                                      thread_source="guardian_review")
+        for path in self.root.glob("*.jsonl"):
+            if path.name != "parent.jsonl":
+                path.unlink()
+        self.write_records("guardian.jsonl", guardian)
+        self.request["planned_subagents"] = []
+        report = self.audit()
+        self.assertEqual(len(report["host_sessions"]), 1)
         self.assertEqual(report["unplanned_subagents"], [])
         self.assertEqual(report["parent"]["turns"], [])
         self.assertIsNone(report["parent_ran_at_ultra"])
