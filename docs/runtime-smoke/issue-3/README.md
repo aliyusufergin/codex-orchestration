@@ -1,5 +1,8 @@
 # Issue #3: runtime smoke evidence
 
+Historical run: the [fresh disposable-session evidence](disposable-session/README.md)
+resolves the directory prerequisite and current relative-price evidence gaps below.
+
 Run: 2026-09-14, Codex CLI 0.154.0, multi-agent v2, workspace-write,
 network disabled. Source: [issue #3](https://github.com/aliyusufergin/codex-orchestration/issues/3)
 and its [parent specification](https://github.com/aliyusufergin/codex-orchestration/issues/1).
