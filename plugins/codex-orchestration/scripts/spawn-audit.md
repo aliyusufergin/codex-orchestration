@@ -1,5 +1,10 @@
 # Spawn audit command
 
+At acceptance, the Parent applies the
+[spawn audit outcome rules](../skills/orchestration/references/spawn-audit.md)
+to this command's evidence. The command reports settings; review eligibility
+and the acceptance decision stay with the Parent.
+
 Run with Python 3.10+; no third-party packages are needed:
 
 ```sh

@@ -45,6 +45,8 @@ of realized settings. Keep the Parent's model and effort as the user selected.
 2. **Contract and spawn.** Read [contracts](references/contracts.md) and supply all
    fields, including resolved workflow touchpoints, write scope and validation
    commands. Make the planned pinned spawn with a self-contained contract.
+   Retain its returned canonical task path alongside the requested settings for
+   the spawn audit, including later review and correction spawns.
    Dependent work starts after its dependency finishes; overlapping write scopes
    run serially.
 3. **Validation.** Read the subagent's changes and returned commands and results.
@@ -62,6 +64,9 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    `git diff <base-commit>...<candidate-commit>` and returns findings; it changes
    no tracked files. This is a contract constraint, not a claim of sandbox isolation.
 6. **Acceptance.** Read the candidate's diff, evidence and review findings.
+   Run the [spawn audit](references/spawn-audit.md) for every planned subagent
+   and apply its outcome rules before counting reviews. If a review is
+   disqualified, run its replacement and audit again before acceptance.
    Acceptance is blocked while any blocking finding is open. A correction is
    bounded work and makes a new candidate subject to the plan's Scrutiny; direct execution
    uses the same cost exception. Before accepting, confirm `git rev-parse HEAD`

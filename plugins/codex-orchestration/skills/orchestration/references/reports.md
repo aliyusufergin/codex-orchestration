@@ -55,17 +55,28 @@ preferences: <applied preferences and actual routing/checking;
 open blocking findings: <must be none for acceptance>
 open non-blocking findings: <locations and evidence, or none>
 spawn audit:
+  command: <invocation, run start and session directory; exit status>
   <task>: requested <model/effort>; realized <model/effort or unobservable>;
           <confirmed | mismatch | unobservable>; <source or reason>
-  unplanned subagents: <evidence, or unobservable with reason>
-  Parent efforts: <per-turn evidence, or unobservable with reason>
+          effect: <review counts / disqualified and replacement task;
+                   weaker execution retained; cost anomaly; or none>
+  unplanned subagents: <identities, realized settings and sources;
+                       none found, or discovery unobservable with reason>
+  host approval sessions: <separately classified evidence, or none found>
+  record errors: <paths/reasons and limits on coverage, or none>
+  Parent efforts: <each turn's timestamp, effort and source;
+                   retain readable turns alongside any unobservable remainder>
+  Parent ran at Ultra: <true | false | unobservable, from audit evidence>
 labels: <applicable labels and reasons, or none>
 acceptance: <Parent's decision and evidence supporting it>
 ```
 
-The [spawn audit command](../../../scripts/spawn-audit.md) provides settings
-evidence; its input uses the session directory, even when the task's files live
-elsewhere. Requested settings alone never fill the realized column.
+Apply the [spawn audit](spawn-audit.md) reference before filling this block.
+Keep every planned subagent, including disqualified and replacement reviews.
+For settings that change across turns, list each turn with its source instead
+of collapsing the evidence into one model/effort pair. Requested settings alone
+never fill the realized column. Summarize evidence without copying conversation
+content from the host records.
 
 Reserve labels for applicable run conditions: `Parent-only run` with
 `no independent review`, `review skipped at low Consequence` with its reason,
