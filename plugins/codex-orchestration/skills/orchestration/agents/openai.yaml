@@ -1,6 +1,6 @@
 interface:
   display_name: "Codex Orchestration"
-  short_description: "Route and review work with Astra dynamically"
+  short_description: "Delegate, review, and accept bounded work"
   default_prompt: "Use $codex-orchestration:orchestration to plan, build, verify, and review this work."
 policy:
   allow_implicit_invocation: false

@@ -1,11 +1,12 @@
 # Codex Orchestration
 
-A user-invoked Codex plugin for planning, routing, implementing, verifying, and
-reviewing work with GPT-6 Astra and native Codex subagents.
+A user-invoked Codex plugin for delegating bounded work to pinned native
+subagents, reviewing a committed candidate, and accepting it with evidence.
 
-This initial package preserves Astra Advisor's orchestration behavior. The
+The plan-to-acceptance path follows the
 [glossary](CONTEXT.md) and [design decisions](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
-describe the intended evolution, which is implemented in subsequent tickets.
+for a single change at normal Consequence. Further execution paths are being
+implemented in subsequent tickets.
 
 ## Install
 
@@ -16,7 +17,7 @@ codex plugin marketplace add aliyusufergin/codex-orchestration --ref main
 codex plugin add codex-orchestration@codex-orchestration
 ```
 
-Start a fresh session, select GPT-6 Astra at your chosen supported effort, and invoke:
+Start a fresh session at your chosen model and supported effort, and invoke:
 
 ```text
 Use $codex-orchestration:orchestration to plan, build, verify, and review this work.
@@ -27,8 +28,8 @@ The skill loads only when explicitly invoked. Its Codex UI metadata sets
 
 The Parent uses native subagents when the host exposes explicit model and reasoning
 effort controls. Requested settings are distinguished from confirmed runtime
-settings. See the [operations reference](plugins/codex-orchestration/skills/orchestration/references/operations.md)
-for routing, review, and host limitations.
+settings. See the [skill](plugins/codex-orchestration/skills/orchestration/SKILL.md)
+for the execution sequence and its contract, capability and report references.
 
 ## Update
 
@@ -55,7 +56,8 @@ sh plugins/codex-orchestration/scripts/verify.sh
 ```
 
 The verifier checks the manifest, marketplace, local Markdown links, license and
-attribution, explicit invocation metadata, and absence of static role files.
+attribution, explicit invocation metadata, absence of static role files, and
+the capability snapshot as the single source of model names within the skill.
 It also runs the JSON command tests for the
 [spawn audit](plugins/codex-orchestration/scripts/spawn-audit.md), which compares
 planned subagents with the host's session records and reports Parent effort.

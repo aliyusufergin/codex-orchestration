@@ -111,10 +111,12 @@ if isinstance(default_prompt, list):
 
 skill_root = plugin / "skills" / "orchestration"
 skill_path = skill_root / "SKILL.md"
-operations_path = skill_root / "references" / "operations.md"
+snapshot_path = skill_root / "references" / "capability-snapshot.md"
 ui_path = skill_root / "agents" / "openai.yaml"
 require(skill_path.is_file(), f"missing orchestration skill: {skill_path}")
-require(operations_path.is_file(), f"missing operations reference: {operations_path}")
+for name in ("capability-snapshot.md", "contracts.md", "reports.md"):
+    path = skill_root / "references" / name
+    require(path.is_file(), f"missing orchestration reference: {path}")
 require(ui_path.is_file(), f"missing orchestration UI metadata: {ui_path}")
 if ui_path.is_file():
     ui = ui_path.read_text(encoding="utf-8")
@@ -129,9 +131,28 @@ for label, value in (("homepage", manifest.get("homepage")),
                      ("websiteURL", interface.get("websiteURL"))):
     parsed = urlsplit(value if isinstance(value, str) else "")
     require(parsed.scheme == "https" and bool(parsed.netloc), f"{label} must be an absolute HTTPS URL")
-if operations_path.is_file():
-    for target in markdown_links(operations_path.read_text(encoding="utf-8")):
-        check_relative_link(target, operations_path.parent, "operations reference link")
+for path in (skill_root / "references").rglob("*.md"):
+    for target in markdown_links(path.read_text(encoding="utf-8")):
+        check_relative_link(target, path.parent, "orchestration reference link")
+
+# Keep model identifiers and their short names in one reference, including UI text.
+# Derive names from that source; do not maintain another model catalog here.
+model_pattern = re.compile(r"\bgpt[-\s]+\d[\w.-]*", re.IGNORECASE)
+if snapshot_path.is_file():
+    snapshot = snapshot_path.read_text(encoding="utf-8")
+    model_names = set(model_pattern.findall(snapshot))
+    require(bool(model_names), "capability snapshot must contain model identifiers")
+    short_names = {name.rsplit("-", 1)[-1] for name in model_names
+                   if name.rsplit("-", 1)[-1].isalpha()}
+    name_pattern = re.compile(
+        r"\b(?:" + "|".join(re.escape(name) for name in sorted(short_names)) + r")\b",
+        re.IGNORECASE,
+    ) if short_names else None
+    for path in skill_root.rglob("*"):
+        if path.is_file() and path != snapshot_path:
+            content = path.read_text(encoding="utf-8")
+            require(not model_pattern.search(content) and not (name_pattern and name_pattern.search(content)),
+                    f"model names belong only in the capability snapshot: {path.relative_to(skill_root)}")
 
 if skill_path.is_file():
     skill_text = skill_path.read_text(encoding="utf-8")
@@ -215,7 +236,7 @@ if errors:
     raise SystemExit(1)
 
 print("VERIFY PASSED")
-print("manifest, marketplace, skill references, README links, license, attribution, user invocation, CI, and static-role boundaries are valid")
+print("manifest, marketplace, skill references, capability snapshot boundary, README links, license, attribution, user invocation, CI, and static-role boundaries are valid")
 PY
 
 python3 -m unittest discover -s "$plugin_dir/tests" -p 'test_*.py'

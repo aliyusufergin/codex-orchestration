@@ -1,7 +1,7 @@
 {
   "name": "codex-orchestration",
   "version": "0.2.0",
-  "description": "Codex-native dynamic orchestration with GPT-6 Astra as the primary advisor.",
+  "description": "Delegate bounded work to pinned native Codex subagents and review committed candidates.",
   "author": {
     "name": "Codex Orchestration contributors"
   },
@@ -11,14 +11,13 @@
   "keywords": [
     "codex",
     "orchestration",
-    "multi-agent",
-    "gpt-6-astra"
+    "multi-agent"
   ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Codex Orchestration",
-    "shortDescription": "Use GPT-6 Astra to plan, route, verify, and review work dynamically.",
-    "longDescription": "Codex Orchestration keeps GPT-6 Astra in the primary session at the effort selected by the user. Astra can combine useful parent work with bounded native Codex subagents, choosing gpt-5.6-sol, gpt-5.6-terra, or gpt-5.6-luna and a supported effort from live tool metadata. ChatGPT Work cloud tasks remain bounded by the create_thread schema and do not promise arbitrary model or effort pinning.",
+    "shortDescription": "Delegate bounded work, review candidates, and accept with evidence.",
+    "longDescription": "Codex Orchestration keeps decision rights with the Parent and delegates bounded work through explicit model and effort selections. Subagents validate their changes; the Parent commits a candidate and commissions a fresh review before acceptance.",
     "developerName": "Codex Orchestration contributors",
     "category": "Productivity",
     "capabilities": [
@@ -28,7 +27,7 @@
     "websiteURL": "https://github.com/aliyusufergin/codex-orchestration",
     "defaultPrompt": [
       "Use $codex-orchestration:orchestration to plan, build, verify, and review this work.",
-      "Choose dynamic subagents only when bounded independent work improves delivery."
+      "Delegate bounded work with pinned settings and report validation and review evidence."
     ]
   }
 }

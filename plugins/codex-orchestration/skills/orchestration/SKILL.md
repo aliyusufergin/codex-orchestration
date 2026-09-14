@@ -1,81 +1,69 @@
 ---
 name: orchestration
-description: "Plan, route, implement, verify, and review substantial work with GPT-6 Astra and dynamically selected native Codex subagents."
+description: "Delegate bounded work with pinned native subagents, then review and accept a committed candidate."
 ---
 
 # Codex Orchestration
 
-Act as the architect and acceptance owner. Keep the primary session on GPT-6 Astra
-at the effort selected by the user. Astra owns intent, architecture, decomposition,
-delegation decisions, parent verification, and acceptance. A skill cannot change the
-parent model or effort, and must honor the invocation's effort. If observable runtime
-metadata says the parent model is not `gpt-6-astra`, report the mismatch as a
-selection prerequisite and do not claim Astra orchestration. If the model or effort
-is unobservable, disclose that fact rather than inventing confirmation.
+The user invokes this execution layer alongside their workflow. The top-level
+session is the **Parent** and keeps six decision rights:
 
-After capability preflight and before the first implementation or delegation task
-call, emit a short, machine-auditable declaration:
+- **Intent**: the user's desired outcome, acceptance criteria, preferences and questions.
+- **Architecture**: interfaces, schemas, trust boundaries and cross-ownership decisions.
+- **Plan**: splitting work, routing it, assigning write scopes and ordering dependencies.
+- **Scrutiny**: how hard the work is checked.
+- **Integration**: resolving conflicts between subagents' outputs.
+- **Acceptance**: deciding that the work is done and its evidence sufficient.
 
-~~~text
-ASTRA ROUTE
-parent: <observed model or unobservable> / <observed effort or unobservable>
-delegation: <none or the selected native subagent models and efforts>
-risk: <concise, task-specific rationale>
-~~~
+Subagents may provide evidence and proposals for these decisions. **Bounded work**
+leaves no decision right open, has acceptance criteria the subagent can check,
+names a write scope and fits in one fresh context. Delegate bounded work by
+default, including work on the Parent's critical path. **Direct execution** is
+allowed only when briefing and checking a subagent would cost more than the work;
+record that reason in the plan report. When host capacity is full, wait for a slot.
 
-Report model and effort as observed evidence. If metadata does not expose a value,
-say that it is unobservable; never claim a runtime pin that was not confirmed. Read
-[the operations reference](references/operations.md) before the first delegation.
+Only the Parent makes **pinned spawns**. This skill explicitly authorises and
+requires setting `model`, `reasoning_effort` and `fork_turns: "none"` together on
+every native `collaboration.spawn_agent` call. Subagents never start agents,
+never use Ultra and never change version-control state. Use contracts rather
+than native agent roles. A spawn request records requested settings, not proof
+of realized settings. Keep the Parent's model and effort as the user selected.
 
-Use the generic `collaboration.spawn_agent` tool only when it is exposed by the
-current tool schema. Each selected subagent must receive an explicit `model`, an
-explicit supported `reasoning_effort`, and `fork_turns: none`. Choose dynamically
-among `gpt-5.6-sol`, `gpt-5.6-terra`, and `gpt-5.6-luna` from the task's risk,
-context, and independent work available; do not encode a role-to-model mapping or a
-fixed number of subagents. Give every subagent a concrete, bounded, independent
-deliverable while Astra continues useful parent work. Do not duplicate the parent's
-implementation or verification in a subagent.
+## From plan to acceptance
 
-Tools and their public schemas are authoritative. Select only an effort the current
-tool exposes. If a selected model, effort, spawn control, or required native tool is
-missing, conflicting, unavailable, or unobservable, fail that delegation closed and
-continue only with safe parent work or report the limitation. Never silently
-substitute a model, effort, role, or fabricated tool. Introspection may clarify an
-omitted runtime field; it cannot replace an available public contract.
-
-For a substantial implementation, Astra must inspect the complete diff and rerun the
-requested checks before starting a fresh read-only review. The reviewer may be any of
-the three supported subagent models, selected dynamically with explicit model and
-effort controls. Give it the actual change set and evidence, and require:
-
-~~~text
-ASTRA REVIEW
-VERDICT: ship | fix-first | rethink
-REASON: <evidence-based reason>
-FINDINGS: <precise findings or none>
-RESIDUAL RISK: <remaining risk or none>
-~~~
-
-Accept a substantial implementation only after the fresh reviewer returns `ship`.
-After `fix-first`, the parent applies the correction, verifies again, and obtains a
-new fresh review. A reviewer remains read-only and never fixes its own findings.
-
-Use native Codex subagents in the ChatGPT app when the exposed interface supports the
-needed controls. Separate app tasks require an explicit user request. For an explicit
-Codex app task, `mcp__codex_app__create_thread` supports `model` and `thinking`; call
-`mcp__codex_app__list_projects` first for project targets, using a worktree by default
-for Git projects and local otherwise. ChatGPT Work cloud `create_thread` must omit
-`model` and `thinking`, so it cannot currently promise arbitrary model or effort
-control; do not dispatch a model-pinned request there by default or use an API-key/CLI
-workaround. Use a future native work tool only when its schema exposes the required
-controls.
-
-## Live delegation updates
-
-Automatically show a short user-visible lifecycle update for **every** delegation,
-including reviews, before dispatch and on completion or failure. Before dispatch,
-include task name, exact bounded ownership, requested model and effort, and the
-reason for that selection. On return, include agent ID, actual status, and observed
-model/effort with their evidence source; if unavailable say `unobservable`. If they
-differ from the request, show both. A submitted request is not runtime confirmation.
-Keep progress readable; report meaningful changes without polling narration.
+1. **Plan.** Record the run's start time, session working directory, current branch
+   and `git rev-parse HEAD` as the **base commit**. For a clean starting tree,
+   settle Intent and Architecture and identify one piece of bounded work.
+   Before every plan report, read the
+   [capability snapshot](references/capability-snapshot.md). Live host metadata
+   overrides its capabilities and defaults. Routing starts at the cheapest model
+   at its default effort: a stronger model needs a one-line capability reason,
+   and a higher effort needs a one-line depth reason. **Difficulty** selects
+   model and effort; **Consequence**, the cost of an undetected error, selects
+   Scrutiny. Show the [plan report](references/reports.md) before the first spawn.
+2. **Contract and spawn.** Read [contracts](references/contracts.md) and supply all
+   fields, including resolved workflow touchpoints, write scope and validation
+   commands. Make the planned pinned spawn with a self-contained contract.
+   Dependent work starts after its dependency finishes; overlapping write scopes
+   run serially.
+3. **Validation.** Read the subagent's changes and returned commands and results.
+   An **integration check** is needed only when more than one change was combined;
+   it can be delegated. If evidence is insufficient, contract the missing check
+   to a subagent. The Parent judges sufficiency without re-running checks by default.
+4. **Candidate.** The Parent commits the integrated change on the current branch
+   and records `git rev-parse HEAD` as the **candidate**. Stage only the run's
+   changes. Review begins only after this commit exists.
+5. **Review.** At normal Consequence, send the review contract to a fresh-context
+   subagent that did no work on the candidate. Select at least the snapshot's
+   scrutiny floor for both model and effort; explain stronger selections.
+   Give it the base commit, candidate commit and validation evidence. It examines
+   `git diff <base-commit>...<candidate-commit>` and returns findings; it changes
+   no tracked files. This is a contract constraint, not a claim of sandbox isolation.
+6. **Acceptance.** Read the candidate's diff, evidence and review findings.
+   Acceptance is blocked while any blocking finding is open. A correction is
+   bounded work and makes a new candidate requiring review; direct execution
+   uses the same cost exception. Before accepting, confirm `git rev-parse HEAD`
+   still equals the reviewed candidate and that the index and working tree have
+   no changes to the candidate. Movement or edits invalidate that review for
+   acceptance. Show the [acceptance report](references/reports.md) for the
+   unchanged candidate, retaining each review's findings separately.
