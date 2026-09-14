@@ -1,8 +1,8 @@
-# Routing starts at the cheapest model and only the scrutiny floor binds
+# Routing starts cheap; review floors yield only to explicit user preferences
 
-codex-orchestrator encodes capability lanes that fix a model and effort for each class of work and each review risk, and its lane table changed three times in five days; Astra Advisor leaves every choice to judgment. We keep one binding rule and one pattern. A review meets the scrutiny floor for its Consequence level unless an explicit user preference lowers it, because a weak review is the one routing error nothing downstream catches; at high Consequence a review that runs also uses a different model from the one that did the work, since a fresh context gives independence of context but not of errors. Everything else begins at the starting point, the cheapest model in the dated capability snapshot at its default reasoning effort, and moves to a stronger model or a higher effort only with a one-line reason: the capability the work needs picks the model, and the reasoning depth it needs picks the effort. Model names live only in the capability snapshot, which live host metadata overrides.
-
-Issue #6 clarifies that routing and checking preferences in the request or AGENTS.md are Intent. An explicit preference may lower a floor or remove a review; the plan preserves the original Consequence and floor and the acceptance report labels the exception `by user preference`. Model exclusions alone grant neither exception. This preserves the user's control while making weakened checking visible.
+Instead of fixed capability lanes or judgment-only routing, execution starts at the cheapest eligible model at its default effort and stronger selections need a one-line capability or reasoning-depth reason; model names live only in the dated capability snapshot, which live host metadata overrides.
+A review meets its Consequence floor because an undetected error can survive weak checking, and a high-Consequence review uses a different execution model because fresh context alone does not provide independence of errors.
+As clarified by issue #6, request and AGENTS.md preferences are Intent: only an explicit preference may lower a floor or remove review, with the original Consequence and floor preserved in the plan and the exception labelled `by user preference` at acceptance, so user control remains visible and model exclusions alone grant neither exception.
 
 ## Considered Options
 
