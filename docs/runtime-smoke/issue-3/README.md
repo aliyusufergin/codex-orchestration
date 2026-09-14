@@ -26,8 +26,8 @@ user-launched session in that repository must repeat the smoke test before that
 prerequisite can be marked complete. No nested Codex CLI or alternative inference
 surface was used.
 
-Luna was selected as the cheapest model identified by the specification's routing
-baseline. The live model cache fetched at `2026-09-14T06:56:46.101455662Z` lists
+Luna was selected as the cheapest model identified by the specification's Starting
+point. The live model cache fetched at `2026-09-14T06:56:46.101455662Z` lists
 `low` as its lowest supported effort and `medium` as its default. It has no pricing
 field, so current relative price was not independently verified.
 

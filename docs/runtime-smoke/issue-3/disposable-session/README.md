@@ -145,7 +145,7 @@ for name,(path,meta) in selected.items():
         projected.append({'timestamp':row['timestamp'],'type':kind,'payload':q})
     Path('/tmp/issue3-fresh/records/'+name+'.jsonl').write_text(''.join(json.dumps(r)+'\n' for r in projected))
 children=[{'agent_path':m.get('agent_path'),'thread_source':m.get('thread_source')} for _,m in index if m.get('parent_thread_id')==current]
-result={'parent_matches_through_child':1,'parent_session_cwd_matches':parent[0][1]['cwd']==cwd,'start':start,'matching':summary,'turns':turns,'all_direct_subagents':children}
+result={'parent_matches_through_child':1,'parent_session_cwd_matches':parent[0][1]['cwd']==cwd,'start':start,'matching':summary,'turns':turns,'direct_session_records':children}
 Path('/tmp/issue3-fresh/probe-output.json').write_text(json.dumps(result,indent=2)+'\n')
 print(json.dumps(result,indent=2))
 PY
@@ -250,13 +250,21 @@ PY
       }
     ]
   },
-  "all_direct_subagents": [
+  "direct_session_records": [
+    {
+      "agent_path": "/root/standards_review",
+      "thread_source": "subagent"
+    },
     {
       "agent_path": "/root/smoke_b",
       "thread_source": "subagent"
     },
     {
       "agent_path": "/root/smoke_a",
+      "thread_source": "subagent"
+    },
+    {
+      "agent_path": "/root/spec_review",
       "thread_source": "subagent"
     },
     {
@@ -290,8 +298,7 @@ record. The historical run retains the inherited-history counterexample.
 Newly refuted: every record with this `parent_thread_id` necessarily has a
 canonical agent path. The host created a `guardian_review` record with null path
 and `source.subagent.other = "guardian"`. It is surfaced as host approval
-infrastructure, not counted as a planned work subagent or used as independent
-review. A future audit must retain and classify such records rather than crash
+infrastructure, not counted as a planned work subagent or used as Review. A future audit must retain and classify such records rather than crash
 or silently omit them. No unplanned work subagent was present at collection.
 
 Record access, Python availability, exact realized settings, unambiguous matching,
@@ -304,5 +311,5 @@ does not establish no-child Parent lookup or multi-turn Parent effort changes.
 No runtime implementation or prose tests are added. Validation checks JSON and
 strict projection fields; the full repository verifier is
 `sh plugins/codex-orchestration/scripts/verify.sh`. Candidate SHA, validation
-results, independent Standards/Spec review findings, final spawn audit and
+results, Standards/Spec Review findings, final spawn audit and
 publication readback are recorded in the completion comment on issue #3.
