@@ -45,11 +45,12 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    [plan report](references/reports.md) before the first spawn.
 2. **Contract and spawn.** Read [contracts](references/contracts.md) and supply all
    fields, including resolved workflow touchpoints, write scope and validation
-   commands. Make the planned pinned spawn with a self-contained contract.
-   Retain its returned canonical task path alongside the requested settings for
-   the spawn audit, including later review and correction spawns. For concurrent
-   work, dependencies, overlapping scopes or capacity waits, follow
+   commands. Before spawning concurrent work, work with dependencies or overlapping
+   scopes, or when waiting for capacity, follow
    [parallel work](references/parallel-work.md).
+   Make the planned pinned spawn with a self-contained contract.
+   Retain its returned canonical task path alongside the requested settings for
+   the spawn audit, including later review and correction spawns.
    Handle escalations through the procedure below. For research or
    exploration returning only findings, use the findings-only branch below.
 3. **Validation.** Read the subagent's changes and returned commands and results.

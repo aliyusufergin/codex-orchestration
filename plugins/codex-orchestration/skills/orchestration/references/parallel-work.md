@@ -7,8 +7,7 @@ in dependency fields. Resolve missing dependencies and cycles before spawning
 affected work. Name the outputs each dependent contract consumes. Include an
 integration check when the plan combines more than one change: its scope,
 commands, expected results and prerequisite tasks, and whether the Parent or
-a subagent runs it. Keep scheduling information in the report; no separate
-state file is needed.
+a subagent runs it.
 
 ## Fill the available slots
 
