@@ -58,8 +58,9 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    and records `git rev-parse HEAD` as the **candidate**. Stage only the run's
    changes. Review begins only after this commit exists.
 5. **Review.** Run each review required by the plan's Scrutiny, or record the
-   permitted skip and its reason. Send each review contract to a fresh-context
-   subagent that did no work on the candidate. Apply the selected floor and
+   permitted skip and its reason. Start each new reviewer in a fresh-context
+   subagent that did no work on the candidate; subsequent follow-ups use the
+   correction loop below. Apply the selected floor and
    any explicit user preference; explain stronger selections.
    Give it the base commit, candidate commit and validation evidence. It examines
    `git diff <base-commit>...<candidate-commit>` and returns findings; it changes

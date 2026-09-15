@@ -118,7 +118,7 @@ A full check of the integrated result, needed only when more than one change has
 _Avoid_: parent verification
 
 **Review**:
-A fresh-context subagent's examination of a candidate's diff and evidence, which may re-run checks but never changes the candidate. Its strength is set by Scrutiny.
+A subagent's examination of a candidate's diff and evidence, which may re-run checks but never changes the candidate; its strength is set by Scrutiny. The subagent starts with a fresh context and retains it for a Follow-up review.
 _Avoid_: code review (names a workflow), independent review
 
 **Base commit**:
