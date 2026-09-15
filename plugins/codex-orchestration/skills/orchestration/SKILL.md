@@ -80,10 +80,9 @@ of realized settings. Keep the Parent's model and effort as the user selected.
 
 ## Escalations
 
-Local implementation choices within the agreed Architecture and write scope
-belong to the subagent. A write scope does not grant a decision right: at the
-first such decision, the subagent stops and returns the question, options,
-evidence and work so far under its contract's escalation instruction.
+Use the [contract's escalation instruction](references/contracts.md) to
+distinguish local choices from decision rights and obtain the escalation payload.
+A write scope does not grant a decision right.
 
 The Parent shows the escalation as an interim message, then decides. Questions
 for the user go only through the Parent; when the answer is needed, keep the
