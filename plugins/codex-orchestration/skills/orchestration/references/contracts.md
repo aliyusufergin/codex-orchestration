@@ -33,8 +33,9 @@ check commissioned by the Parent uses this same contract form.
 
 Use the same fields with write scope `none`. Include:
 
-- The exact base and candidate SHAs, and
-  `git diff <base-commit>...<candidate-commit>` as the comparison command.
+- The exact base and candidate SHAs. For a review of the whole candidate, use
+  `git diff <base-commit>...<candidate-commit>` as the comparison command;
+  for a follow-up review, use the comparison specified below.
 - The originating acceptance criteria, relevant standards, and the validation
   commands and results returned for this candidate.
 - The review's Consequence and selected Scrutiny, plus confirmation that this

@@ -122,7 +122,7 @@ A fresh-context subagent's examination of a candidate's diff and evidence, which
 _Avoid_: code review (names a workflow), independent review
 
 **Base commit**:
-The commit the Parent records when a run starts, against which every review of the run compares its candidate.
+The commit the Parent records when a run starts, against which a review of the whole candidate compares its candidate.
 _Avoid_: starting revision
 
 **Candidate**:
@@ -171,7 +171,7 @@ _Avoid_: collision point, conflict step, checkpoint
 - **Bounded work** goes to a **Subagent** unless it qualifies for **Direct execution**; a **Parent-only run** happens only when no **Pinned spawn** is possible.
 - An **Escalation** hands a **Decision right** back to the **Parent**.
 - Work passes through **Validation**, an **Integration check** when changes were combined, any **Review** required by **Scrutiny**, and **Acceptance** of one **Candidate**. A permitted review skip is recorded in the **Acceptance report** with its reason.
-- Only the **Parent** changes version-control state: each **Candidate** is a commit on top of the run's **Base commit**, and every **Review** compares against that **Base commit**.
+- Only the **Parent** changes version-control state: each **Candidate** is a commit on top of the run's **Base commit**. A **Review** of the whole candidate compares against that **Base commit**; a **Follow-up review** compares against the candidate that reviewer last examined.
 - A **Review** goes to a **Subagent** that did no work on the **Candidate**.
 - A blocking **Finding** keeps a **Candidate** from **Acceptance** until a **Correction** resolves it or a new **Review** overturns it.
 - After a **Correction**, when **Scrutiny** requires review, normal **Consequence** gets a **Follow-up review** and high **Consequence** gets a new **Review** of the whole **Candidate**.
