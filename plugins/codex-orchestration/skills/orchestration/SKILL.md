@@ -31,6 +31,15 @@ of realized settings. Keep the Parent's model and effort as the user selected.
 
 ## From plan to acceptance
 
+Before planning, check the exposed native spawn tool supports explicit model,
+reasoning effort and fresh context together. If native spawning is unavailable
+(including disabled multi-agent support), cannot pin those settings, or later
+fails for either reason, follow [runs without pinned spawning](references/without-pinned-spawning.md)
+before dependent work. Full host capacity uses the waiting procedure in
+[parallel work](references/parallel-work.md).
+Read the [capability snapshot's Parent model note](references/capability-snapshot.md#parent-model-note)
+at startup and apply it once per run.
+
 1. **Plan.** Record the run's start time, session working directory, current branch
    and `git rev-parse HEAD` as the **base commit**. For a clean starting tree,
    settle Intent and Architecture and identify the pieces of bounded work,

@@ -27,6 +27,13 @@ The official model pages, read on the snapshot date, give the underlying rates:
 [GPT-5.5](https://developers.openai.com/api/docs/models/gpt-5.5) $5/$30.
 Sol's prices are promotional, available at least through 2026-11-21.
 
+## Parent model note
+
+If the host identifies the Parent's model as other than GPT-6 Astra
+(`gpt-6-astra`), note that once per run and continue normally, keeping its
+selected model and reasoning effort. Unknown model identity requires no guess
+or confirmation gate.
+
 ## Scrutiny floor
 
 These are policy floors from the project specification, not claims from pricing.

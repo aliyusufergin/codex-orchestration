@@ -5,6 +5,9 @@ evidence or an explicit `not run`, `not needed` or `unobservable` and its reason
 
 ## Plan report
 
+For a [Parent-only run](without-pinned-spawning.md), apply that procedure's
+plan-report adjustments before filling this block.
+
 Show before the first spawn; show revisions when the plan changes. This report
 holds the plan, without a separate orchestration state file.
 For a permitted skip, put the reason in the work's review requirement and omit
@@ -47,6 +50,9 @@ direct execution: <none, or work and why delegation costs more>
 ```
 
 ## Acceptance report
+
+For a [Parent-only run](without-pinned-spawning.md), distinguish the Parent's
+checks from independent reviews and apply that reference's required labels.
 
 For findings-only work, report the findings and the Parent decision they inform;
 mark candidate and review fields `not needed: findings-only` when the whole run
