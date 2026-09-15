@@ -15,6 +15,7 @@ PLAN REPORT
 base commit: <SHA>
 branch / working directory: <branch> / <absolute session directory>
 run start: <ISO 8601 timestamp with timezone>
+host capacity: <reported slot limit, live occupancy and available slots>
 work:
   <task name>: <contract objective and acceptance criteria>
     write scope: <none or paths>
@@ -25,6 +26,13 @@ work:
     requested settings: <model> / <effort>; fork_turns: "none"
     selection reason: <starting point, or capability/depth reason for departing>
     validation: <commands and expected outcomes>
+  <repeat for every planned contract>
+integration check:
+  <task name, or not needed because only one change is planned>:
+    executor: <Parent or planned subagent with model/effort and selection reason>
+    write scope: <none or paths>
+    dependencies: <all tasks whose changes are combined>
+    validation: <commands, combined scope and expected outcomes>
 review:
   <task name>: <candidate examination and findings to return>
     write scope: none

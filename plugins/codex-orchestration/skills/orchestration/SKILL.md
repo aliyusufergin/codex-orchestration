@@ -20,7 +20,7 @@ leaves no decision right open, has acceptance criteria the subagent can check,
 names a write scope and fits in one fresh context. Delegate bounded work by
 default, including work on the Parent's critical path. **Direct execution** is
 allowed only when briefing and checking a subagent would cost more than the work;
-record that reason in the plan report. When host capacity is full, wait for a slot.
+record that reason in the plan report.
 
 Only the Parent makes **pinned spawns**. This skill explicitly authorises and
 requires setting `model`, `reasoning_effort` and `fork_turns: "none"` together on
@@ -33,7 +33,8 @@ of realized settings. Keep the Parent's model and effort as the user selected.
 
 1. **Plan.** Record the run's start time, session working directory, current branch
    and `git rev-parse HEAD` as the **base commit**. For a clean starting tree,
-   settle Intent and Architecture and identify one piece of bounded work.
+   settle Intent and Architecture and identify the pieces of bounded work,
+   each with a distinct task name, write scope and named dependencies.
    Before every plan report, read the
    [capability snapshot](references/capability-snapshot.md). Live host metadata
    overrides its capabilities and defaults. Routing starts at the cheapest model
@@ -46,14 +47,17 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    fields, including resolved workflow touchpoints, write scope and validation
    commands. Make the planned pinned spawn with a self-contained contract.
    Retain its returned canonical task path alongside the requested settings for
-   the spawn audit, including later review and correction spawns.
-   Dependent work starts after its dependency finishes; overlapping write scopes
-   run serially. Handle escalations through the procedure below. For research or
+   the spawn audit, including later review and correction spawns. For concurrent
+   work, dependencies, overlapping scopes or capacity waits, follow
+   [parallel work](references/parallel-work.md).
+   Handle escalations through the procedure below. For research or
    exploration returning only findings, use the findings-only branch below.
 3. **Validation.** Read the subagent's changes and returned commands and results.
-   An **integration check** is needed only when more than one change was combined;
-   it can be delegated. If evidence is insufficient, contract the missing check
-   to a subagent. The Parent judges sufficiency without re-running checks by default.
+   When more than one change was combined, run the planned **integration check**
+   on the combined result before review; it can be delegated. Resolve failures
+   and obtain passing evidence before proceeding. If evidence is insufficient,
+   contract the missing check to a subagent. The Parent judges sufficiency
+   without re-running checks by default.
 4. **Candidate.** The Parent commits the integrated change on the current branch
    and records `git rev-parse HEAD` as the **candidate**. Stage only the run's
    changes. Review begins only after this commit exists.
