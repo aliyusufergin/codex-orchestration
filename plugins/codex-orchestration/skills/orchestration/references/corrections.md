@@ -5,6 +5,11 @@ its reviewer and reviewed candidate, preserving separate review axes. Acceptance
 stays blocked until every blocking finding is resolved by a correction and its
 required review, or overturned by a new review.
 
+For a run without commits, the
+[dirty-tree correction procedure](dirty-working-tree.md#review-corrections-and-acceptance)
+replaces commits and Git comparisons below with captured candidates, hashes and
+explicit snapshot diffs. Keep the same routing, findings and review requirements.
+
 1. **Surface and classify.** Show blocking findings as interim messages with
    their locations and evidence. A finding that challenges the plan or contract
    returns the Parent to replanning: resolve the decision right and update the

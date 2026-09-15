@@ -37,6 +37,13 @@ cannot be resolved from existing Intent, settle it through the Parent first.
 New touchpoints discovered during execution use the skill's Escalation procedure
 and an updated contract before affected work resumes.
 
+For a run without commits, resolve every version-control and review touchpoint
+using the [dirty-tree procedure](dirty-working-tree.md): workflow commit steps
+are omitted, candidate hashes replace candidate SHAs, and reviewers receive the
+diff and untracked evidence explicitly. Include the concrete artifact paths and
+capture recipe in each affected contract. This run-level choice also replaces
+the committed-candidate and `HEAD` comparisons in the review steps below.
+
 ## Lift parallel review steps
 
 When a workflow requests parallel agents, the Parent reads the requested axes

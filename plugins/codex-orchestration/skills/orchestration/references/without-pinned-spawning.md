@@ -34,7 +34,9 @@ replaces delegation by default and required independent reviews, regardless of
 Consequence; it does not need a per-piece delegation-cost justification.
 
 Carry the requested workflow through validation, any needed integration check,
-candidate commits and corrections, then Acceptance. The Parent examines the
+candidate creation and corrections, then Acceptance. When the user chose to run
+without commits, use the [dirty-tree procedure](dirty-working-tree.md), including
+its hash checks and label. The Parent examines the
 candidate and evidence itself; those checks do not count as independent Review.
 Keep the candidate unchanged at acceptance and resolve all blocking findings,
 including any returned before spawning became unavailable.

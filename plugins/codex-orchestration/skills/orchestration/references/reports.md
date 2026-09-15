@@ -18,6 +18,8 @@ PLAN REPORT
 base commit: <SHA>
 branch / working directory: <branch> / <absolute session directory>
 run start: <ISO 8601 timestamp with timezone>
+starting tree: <clean, or dirty status summary and user's choice>
+saved changes / starting evidence: <stash object ID or evidence path, or not needed>
 host capacity: <reported slot limit, live occupancy and available slots>
 work:
   <task name>: <contract objective and acceptance criteria>
@@ -39,7 +41,7 @@ integration check:
 review:
   <task name>: <candidate examination and findings to return>
     write scope: none
-    dependencies: <candidate commit and validation evidence>
+    dependencies: <candidate commit or captured diff-hash candidate, and validation evidence>
     Consequence: <level>
     requested settings: <model> / <effort>; fork_turns: "none"
     selection reason: <scrutiny floor, or reason for stronger selection>
@@ -54,6 +56,13 @@ direct execution: <none, or work and why delegation costs more>
 For a [Parent-only run](without-pinned-spawning.md), distinguish the Parent's
 checks from independent reviews and apply that reference's required labels.
 
+For a [run without commits](dirty-working-tree.md), use `sha256:<digest>` in
+candidate fields and correction history, retain the original base SHA, and give
+the evidence paths and hash/HEAD/branch observations in `candidate unchanged`.
+Include the starting-index comparison and label the report `ran without commits`.
+For changes set aside, report the saved stash object ID and restoration result
+separately from the candidate's pre-restoration Acceptance check.
+
 For findings-only work, report the findings and the Parent decision they inform;
 mark candidate and review fields `not needed: findings-only` when the whole run
 has no changes. In mixed runs, list those tasks separately from candidate reviews.
@@ -63,8 +72,9 @@ candidate review. Include all findings-only subagents in the spawn audit.
 ```text
 ACCEPTANCE REPORT
 base commit: <SHA>
-candidate: <SHA>
-candidate unchanged: <HEAD before/after review, index and working-tree evidence>
+candidate: <SHA or sha256:diff-hash>
+candidate unchanged: <before/after and acceptance observations for the selected procedure>
+user changes: <starting evidence, or saved stash ID and restoration result; not needed if clean>
 validation: <commands, exit statuses and results; who ran them>
 integration check: <evidence, or not needed because only one change was made>
 reviews: <one entry per review/axis, with findings and residual risk>

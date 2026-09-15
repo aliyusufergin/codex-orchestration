@@ -29,7 +29,14 @@ check commissioned by the Parent uses this same contract form.
 
 ## Review contract
 
-Use the same fields with write scope `none`. Include:
+Use the same fields with write scope `none`.
+
+For a run without commits, apply the
+[dirty-tree review procedure](dirty-working-tree.md#review-corrections-and-acceptance)
+instead of the SHA comparisons and tracked-status checks below. Supply its
+candidate hash, explicit diff and untracked evidence, and capture recipe.
+
+Include:
 
 - The exact base and candidate SHAs. For a review of the whole candidate, use
   `git diff <base-commit>...<candidate-commit>` as the comparison command;
@@ -60,6 +67,9 @@ whether it upholds or overturns that finding and why.
 ## Correction contract
 
 Use the common contract fields, including validation, boundaries and escalation.
+For a run without commits, substitute candidate hashes and evidence bundles for
+candidate SHAs and apply the [dirty-tree procedure](dirty-working-tree.md) when
+creating the corrected candidate; the original base remains a commit SHA.
 Include:
 
 - The original work's objective and acceptance criteria, the current candidate

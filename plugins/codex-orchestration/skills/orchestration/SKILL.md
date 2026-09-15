@@ -1,6 +1,6 @@
 ---
 name: orchestration
-description: "Delegate bounded work with pinned native subagents, then review and accept a committed candidate."
+description: "Delegate bounded work with pinned native subagents, then review and accept a candidate."
 ---
 
 # Codex Orchestration
@@ -41,8 +41,11 @@ Read the [capability snapshot's Parent model note](references/capability-snapsho
 at startup and apply it once per run.
 
 1. **Plan.** Record the run's start time, session working directory, current branch
-   and `git rev-parse HEAD` as the **base commit**. For a clean starting tree,
-   settle Intent and Architecture and identify the pieces of bounded work,
+   and `git rev-parse HEAD` as the **base commit**. Inspect the starting index,
+   working tree and untracked files. If dirty, follow
+   [starting from a dirty working tree](references/dirty-working-tree.md) and
+   settle its once-per-run choice before any spawn or task edits.
+   Settle Intent and Architecture and identify the pieces of bounded work,
    each with a distinct task name, write scope and named dependencies.
    When composing with a user-invoked flow or a discipline skill, read
    [workflows](references/workflows.md) and resolve its touchpoints from its own
@@ -71,7 +74,10 @@ at startup and apply it once per run.
    and obtain passing evidence before proceeding. If evidence is insufficient,
    contract the missing check to a subagent. The Parent judges sufficiency
    without re-running checks by default.
-4. **Candidate.** The Parent commits the integrated change on the current branch
+4. **Candidate.** When the user chose to run without commits, use the
+   [diff-hash candidate procedure](references/dirty-working-tree.md) here and
+   throughout Review, corrections and Acceptance in place of commit-based steps.
+   Otherwise, the Parent commits the integrated change on the current branch
    and records `git rev-parse HEAD` as the **candidate**. Stage only the run's
    changes. Review begins only after this commit exists.
 5. **Review.** Run each review required by the plan's Scrutiny, or record the

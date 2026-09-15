@@ -1,15 +1,16 @@
 # Codex Orchestration
 
 A user-invoked Codex plugin for delegating bounded work to pinned native
-subagents, reviewing a committed candidate, and accepting it with evidence.
+subagents, reviewing a candidate, and accepting it with evidence.
 
 The plan-to-acceptance path follows the
 [glossary](CONTEXT.md) and [design decisions](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
 for a single change at low, normal or high Consequence. Review requirements
 follow Consequence, and routing and checking preferences in the request or
 AGENTS.md shape the plan. Explicit preferences that weaken review are labelled
-in the acceptance report. Further execution paths are being implemented in
-subsequent tickets.
+in the acceptance report. Runs starting with uncommitted changes follow the
+[dirty-tree procedure](plugins/codex-orchestration/skills/orchestration/references/dirty-working-tree.md).
+Further execution paths are being implemented in subsequent tickets.
 
 ## Install
 

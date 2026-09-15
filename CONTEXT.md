@@ -126,7 +126,7 @@ The commit the Parent records when a run starts, against which a review of the w
 _Avoid_: starting revision
 
 **Candidate**:
-The commit, made by the Parent, submitted for Acceptance and any required Review; any change to it makes a new candidate.
+The revision submitted by the Parent for Acceptance and any required Review: normally a commit, or a diff hash when the user chooses to run without commits from a dirty starting tree. Any change to it makes a new candidate.
 _Avoid_: final patch, accumulated diff, working-tree revision
 
 **Finding**:
@@ -171,7 +171,7 @@ _Avoid_: collision point, conflict step, checkpoint
 - **Bounded work** goes to a **Subagent** unless it qualifies for **Direct execution**; a **Parent-only run** happens only when no **Pinned spawn** is possible.
 - An **Escalation** hands a **Decision right** back to the **Parent**.
 - Work passes through **Validation**, an **Integration check** when changes were combined, any **Review** required by **Scrutiny**, and **Acceptance** of one **Candidate**. A permitted review skip is recorded in the **Acceptance report** with its reason.
-- Only the **Parent** changes version-control state: each **Candidate** is a commit on top of the run's **Base commit**. A **Review** of the whole candidate compares against that **Base commit**; a **Follow-up review** compares against the candidate that reviewer last examined.
+- Only the **Parent** changes version-control state: each **Candidate** is normally a commit on top of the run's **Base commit**; a run without commits identifies it by a diff hash. A **Review** of the whole candidate compares against that **Base commit**; a **Follow-up review** compares against the candidate that reviewer last examined.
 - A **Review** goes to a **Subagent** that did no work on the **Candidate**.
 - A blocking **Finding** keeps a **Candidate** from **Acceptance** until a **Correction** resolves it or a new **Review** overturns it.
 - After a **Correction**, when **Scrutiny** requires review, normal **Consequence** gets a **Follow-up review** and high **Consequence** gets a new **Review** of the whole **Candidate**.
@@ -189,4 +189,4 @@ _Avoid_: collision point, conflict step, checkpoint
 - Worker, Explorer, Researcher, Tester and Reviewer were role names in codex-orchestrator. Resolved: there are no roles; a contract's write scope and what it asks the subagent to return say what the subagent does.
 - "Mode" and "profile" named economy and balanced policy sets in codex-orchestrator. Resolved: there are no profiles; the user's routing and checking preferences are part of **Intent**.
 - "Verdict" named a single ship, fix-first or rethink outcome in both fork bases. Resolved: a **Review** returns **Findings**, and **Acceptance** stays with the **Parent**.
-- "Fixed point" is what Matt Pocock's code-review calls the commit a review compares against, and codex-orchestrator tracked uncommitted "revisions". Resolved: this context says **Base commit** and passes it as the fixed point to such workflows, and a **Candidate** is always a commit.
+- "Fixed point" is what Matt Pocock's code-review calls the commit a review compares against, and codex-orchestrator tracked uncommitted "revisions". Resolved: this context says **Base commit** and passes it as the fixed point to such workflows. A **Candidate** is normally a commit; the dirty-tree exception identifies it by a diff hash.
