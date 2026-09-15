@@ -89,24 +89,16 @@ Finally confirm the reviewed candidate is unchanged as required by the skill.
 
 ## Preserve the runtime-smoke limits
 
-The command already handles these findings from issue #3. Supply accurate input
-and report its gaps rather than reconstructing identity from task names:
+The [command interface](../../../scripts/spawn-audit.md) owns the matching,
+owning-metadata, inherited-history, guardian and discovery rules established by
+issue #3. Use those results when reporting identity and coverage; avoid a second
+record parser in the acceptance workflow.
 
-- Use the owning session directory for `cwd`; a shell tool's `workdir` does not
-  relocate the session. Match Parent id, canonical task path, directory and run
-  start together; names can recur in historical runs.
-- Owning `session_meta.id` identifies a subagent; `session_id` may equal the
-  Parent id. Embedded metadata and inherited history do not replace the first
-  owning metadata or prove a fresh pinned spawn's settings.
-- A null agent path may belong to a host guardian. Keep the command's separate
-  host-approval classification and its unplanned work-subagent entries.
-- Report `record_errors` and unresolved Parent identity. An empty unplanned
-  list with incomplete discovery is not evidence that no unplanned spawns exist.
-- Show every returned Parent turn with its timestamp, effort and source. Only
-  turns at or after the recorded run start are returned; a run begun mid-turn
-  may have no Parent turn in that window. With no work subagents, Parent effort
-  is unobservable, including a run with only host approval sessions. Do not
-  infer it from requested subagent settings or backdate the run to fill the gap.
+Supply the owning session directory even when a shell tool ran in a disposable
+repository: a `workdir` override does not relocate the session. A run begun
+mid-turn may have no Parent turn in its audit window. Preserve that gap rather
+than inferring Parent effort from requested subagent settings or backdating the
+run to fill it.
 
 The [runtime smoke and disposable-session completion](https://github.com/aliyusufergin/codex-orchestration/issues/3)
 record the evidence and limits. These source records demonstrate this host's
