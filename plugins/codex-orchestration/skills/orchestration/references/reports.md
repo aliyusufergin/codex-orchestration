@@ -40,6 +40,12 @@ direct execution: <none, or work and why delegation costs more>
 
 ## Acceptance report
 
+For findings-only work, report the findings and the Parent decision they inform;
+mark candidate and review fields `not needed: findings-only` when the whole run
+has no changes. In mixed runs, list those tasks separately from candidate reviews.
+Record any independent findings check and its evidence without counting it as a
+candidate review. Include all findings-only subagents in the spawn audit.
+
 ```text
 ACCEPTANCE REPORT
 base commit: <SHA>

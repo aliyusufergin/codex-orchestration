@@ -13,12 +13,21 @@ be able to do the work from this contract and its named sources alone.
 | Validation | Exact commands, their working directory and expected outcomes; include required typechecking and tests where the project provides them. |
 | Return | Changes and paths, each validation command with its exit status and result, unresolved concerns and any question requiring a decision right. |
 | Boundaries | Never start agents, use Ultra or change version-control state (including staging, committing, switching branches or creating worktrees). Leave changes within the write scope for the Parent. |
-| Escalation | Stop at the first decision right encountered; return the question, options, evidence and work so far. The Parent decides how to continue. |
+| Escalation | Make local choices within the agreed Architecture and write scope. Stop at the first decision right encountered; return the question, options, evidence and work so far to the Parent. Route every user question through the Parent. Resume only under the Parent's updated contract. |
 
 Read an applicable workflow's own instructions before supplying the contract.
 Its user questions, agent starts, acceptance decisions, version-control changes
 and work splitting are touchpoints for the Parent to resolve. A workflow's
 review inside the subagent counts as validation.
+
+## Findings-only contract
+
+For research or exploration returning only findings, use write scope `none`.
+Name the question to investigate, source boundaries and evidence required by
+Validation. Return findings with source locations, uncertainty and any escalation;
+the Parent makes the decision they inform. Resolve workflow review touchpoints
+as findings-only work under the skill's findings-only branch. An independent
+check commissioned by the Parent uses this same contract form.
 
 ## Review contract
 

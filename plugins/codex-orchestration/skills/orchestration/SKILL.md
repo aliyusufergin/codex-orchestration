@@ -48,7 +48,8 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    Retain its returned canonical task path alongside the requested settings for
    the spawn audit, including later review and correction spawns.
    Dependent work starts after its dependency finishes; overlapping write scopes
-   run serially.
+   run serially. Handle escalations through the procedure below. For research or
+   exploration returning only findings, use the findings-only branch below.
 3. **Validation.** Read the subagent's changes and returned commands and results.
    An **integration check** is needed only when more than one change was combined;
    it can be delegated. If evidence is insufficient, contract the missing check
@@ -76,6 +77,38 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    unchanged candidate, retaining each review's findings separately. For a
    permitted review skip, check the committed candidate and its tracked status
    at acceptance and report the skip instead of claiming a reviewed candidate.
+
+## Escalations
+
+Local implementation choices within the agreed Architecture and write scope
+belong to the subagent. A write scope does not grant a decision right: at the
+first such decision, the subagent stops and returns the question, options,
+evidence and work so far under its contract's escalation instruction.
+
+The Parent shows the escalation as an interim message, then decides. Questions
+for the user go only through the Parent; when the answer is needed, keep the
+affected work paused until it arrives. Record the decision in an updated
+contract, including any changed acceptance criteria, write scope or dependencies.
+Either send that update with `collaboration.followup_task` to the same canonical
+task path, preserving the subagent's context, or revise the plan before starting
+replacement work. A follow-up retains the original boundaries except where the
+Parent explicitly updates them. Resume only once the decision right is resolved.
+
+## Findings-only work
+
+Research and exploration contracts with write scope `none` that return only
+findings feed the Parent's decision directly. After validation, skip the
+candidate and review chain for those findings, regardless of Consequence;
+this is distinct from the low-Consequence review skip for changes. The Parent
+still judges whether the evidence is sufficient and includes the subagent in
+the spawn audit and acceptance report, recording `findings-only; no review`.
+Any later implementation needs its own contract and normal candidate lifecycle.
+
+As a Scrutiny decision, the Parent may commission an independent check of the
+findings. Give a fresh-context subagent a findings-only contract with the
+question, sources, evidence to check and unresolved uncertainty. Record the
+chosen settings and their rationale in the plan, and return its findings
+directly to the Parent too; this check does not start a recursive review chain.
 
 ## Scrutiny and preferences
 
