@@ -114,7 +114,7 @@ skill_path = skill_root / "SKILL.md"
 snapshot_path = skill_root / "references" / "capability-snapshot.md"
 ui_path = skill_root / "agents" / "openai.yaml"
 require(skill_path.is_file(), f"missing orchestration skill: {skill_path}")
-for name in ("capability-snapshot.md", "contracts.md", "reports.md"):
+for name in ("capability-snapshot.md", "contracts.md", "reports.md", "workflows.md"):
     path = skill_root / "references" / name
     require(path.is_file(), f"missing orchestration reference: {path}")
 require(ui_path.is_file(), f"missing orchestration UI metadata: {ui_path}")

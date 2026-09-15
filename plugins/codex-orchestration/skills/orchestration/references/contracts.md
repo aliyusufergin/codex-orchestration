@@ -15,10 +15,8 @@ be able to do the work from this contract and its named sources alone.
 | Boundaries | Never start agents, use Ultra or change version-control state (including staging, committing, switching branches or creating worktrees). Leave changes within the write scope for the Parent. |
 | Escalation | Make local choices within the agreed Architecture and write scope. Stop at the first decision right encountered; return the question, options, evidence and work so far to the Parent. Route every user question through the Parent. Resume only under the Parent's updated contract. |
 
-Read an applicable workflow's own instructions before supplying the contract.
-Its user questions, agent starts, acceptance decisions, version-control changes
-and work splitting are touchpoints for the Parent to resolve. A workflow's
-review inside the subagent counts as validation.
+Before supplying the Workflow field, follow [workflows](workflows.md) to read
+the applicable source and resolve every touchpoint into concrete contract answers.
 
 ## Findings-only contract
 

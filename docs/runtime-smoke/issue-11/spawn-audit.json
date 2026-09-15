@@ -1,0 +1,74 @@
+{
+  "planned_subagents": [
+    {
+      "task_name": "issue11_tdd",
+      "requested_model": "gpt-5.6-luna",
+      "requested_effort": "medium",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-luna",
+      "realized_effort": "medium",
+      "evidence": [
+        {
+          "path": "/home/dev/.codex/sessions/2026/09/15/rollout-2026-09-15T16-29-55-01a0a542-86cf-7b32-acd7-73e1906b5fa9.jsonl",
+          "line": 8,
+          "thread_id": "01a0a542-86cf-7b32-acd7-73e1906b5fa9",
+          "timestamp": "2026-09-15T13:29:57.666Z",
+          "turn_id": "01a0a542-8709-79d1-aaa6-57767792e927",
+          "model": "gpt-5.6-luna",
+          "effort": "medium"
+        }
+      ]
+    },
+    {
+      "task_name": "issue11_standards",
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "high",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-terra",
+      "realized_effort": "high",
+      "evidence": [
+        {
+          "path": "/home/dev/.codex/sessions/2026/09/15/rollout-2026-09-15T16-31-30-01a0a543-f7ea-7e63-b84a-7bbfd07c5cd7.jsonl",
+          "line": 8,
+          "thread_id": "01a0a543-f7ea-7e63-b84a-7bbfd07c5cd7",
+          "timestamp": "2026-09-15T13:31:31.906Z",
+          "turn_id": "01a0a543-f811-7e32-beae-672361db8025",
+          "model": "gpt-5.6-terra",
+          "effort": "high"
+        }
+      ]
+    },
+    {
+      "task_name": "issue11_spec",
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "high",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-terra",
+      "realized_effort": "high",
+      "evidence": [
+        {
+          "path": "/home/dev/.codex/sessions/2026/09/15/rollout-2026-09-15T16-31-54-01a0a544-56cc-7b23-b202-0c4de3d4191f.jsonl",
+          "line": 8,
+          "thread_id": "01a0a544-56cc-7b23-b202-0c4de3d4191f",
+          "timestamp": "2026-09-15T13:31:56.399Z",
+          "turn_id": "01a0a544-56f6-7333-a8fa-0a029fd517b4",
+          "model": "gpt-5.6-terra",
+          "effort": "high"
+        }
+      ]
+    }
+  ],
+  "unplanned_subagents": [],
+  "host_sessions": [],
+  "record_errors": [],
+  "parent": {
+    "thread_id": "01a0a53d-6865-75a3-a3ff-fd93b3b5b82c",
+    "turns": [],
+    "status": "unobservable",
+    "reason": "No unique Parent record with turns in this run"
+  },
+  "parent_ran_at_ultra": null
+}

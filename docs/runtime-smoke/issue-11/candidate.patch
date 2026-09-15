@@ -1,0 +1,41 @@
+diff --git a/spawn-audit.py b/spawn-audit.py
+index ca2019d..62b673d 100644
+--- a/spawn-audit.py
++++ b/spawn-audit.py
+@@ -220 +220 @@ def main() -> int:
+-        return 0
++        return 1
+diff --git a/test_spawn_audit_demo.py b/test_spawn_audit_demo.py
+new file mode 100644
+index 0000000..9252ee1
+--- /dev/null
++++ b/test_spawn_audit_demo.py
+@@ -0,0 +1,28 @@
++import json
++from pathlib import Path
++import subprocess
++import sys
++import unittest
++
++
++CLI = Path(__file__).with_name("spawn-audit.py")
++
++
++class SpawnAuditInvalidJsonTests(unittest.TestCase):
++    def test_invalid_json_returns_error_and_failure_status(self):
++        result = subprocess.run(
++            [sys.executable, str(CLI)],
++            input="{",
++            text=True,
++            capture_output=True,
++            check=False,
++        )
++
++        self.assertEqual(result.returncode, 1)
++        output = json.loads(result.stdout)
++        self.assertIsInstance(output, dict)
++        self.assertTrue(output.get("error"))
++
++
++if __name__ == "__main__":
++    unittest.main()

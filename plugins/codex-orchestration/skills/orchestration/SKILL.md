@@ -35,6 +35,9 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    and `git rev-parse HEAD` as the **base commit**. For a clean starting tree,
    settle Intent and Architecture and identify the pieces of bounded work,
    each with a distinct task name, write scope and named dependencies.
+   When composing with a user-invoked flow or a discipline skill, read
+   [workflows](references/workflows.md) and resolve its touchpoints from its own
+   instructions before finalizing the plan and affected contracts.
    Before every plan report, read the
    [capability snapshot](references/capability-snapshot.md). Live host metadata
    overrides its capabilities and defaults. Routing starts at the cheapest model
