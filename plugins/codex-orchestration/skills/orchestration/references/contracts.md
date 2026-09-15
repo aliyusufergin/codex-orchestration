@@ -51,3 +51,30 @@ Use the same fields with write scope `none`. Include:
   residual risk or evidence gaps. Return findings, not a single acceptance verdict.
 
 The Parent owns Acceptance. Keep separate review axes as separate findings lists.
+
+For a follow-up review, retain these boundaries and supply the comparison and
+reviewer-specific findings required by the [correction loop](corrections.md).
+Return the disposition of each supplied blocking finding with evidence, plus any
+new findings in the reviewed change. A disputed finding's new review also returns
+whether it upholds or overturns that finding and why.
+
+## Correction contract
+
+Use the common contract fields, including validation, boundaries and escalation.
+Include:
+
+- The original work's objective and acceptance criteria, the current candidate
+  SHA and the run's base SHA, plus the implementation subagent's canonical task path
+  (or the Parent for direct execution).
+- The blocking findings to resolve, each tied to its reviewer, reviewed candidate,
+  location and evidence. Define the observable outcome that resolves each finding.
+- The correction's write scope and dependencies, and any changes to the original
+  contract or workflow touchpoints decided by the Parent.
+- Any prior correction attempts and review results for these findings, and the
+  reassessment that changes this attempt's contract, model or plan.
+- The correction's model and effort, routing reasons and Consequence under the
+  plan. State whether this is a follow-up, replacement or direct execution.
+- Validation commands that check the corrected behaviour and relevant regressions.
+  Return the changes and command results, mapping each finding to its correction
+  evidence or explaining why it remains unresolved. The Parent makes the new
+  candidate commit and arranges the review under the [correction loop](corrections.md).

@@ -56,6 +56,16 @@ integration check: <evidence, or not needed because only one change was made>
 reviews: <one entry per review/axis, with findings and residual risk>
 review skips: <work, Consequence and one-line reason, or none>
 second reviews: <per high-Consequence piece: review entry, or not run>
+correction history: <none, or chronological entries below>
+  <findings and originating reviewer/axis>:
+    candidate: <reviewed SHA -> corrected SHA; unchanged for a dispute-only review>
+    contract / routing: <correction objective, task path, model/effort;
+                         follow-up, replacement or direct execution and reason>
+    reassessment: <surviving finding or plan/contract challenge, evidence and changed
+                   contract/model/plan; capability-gap reason if stronger; or none>
+    validation: <commands, exit statuses and results, or reference to evidence above>
+    review: <task path, compared SHAs, follow-up or whole candidate, findings and
+             disposition per blocking finding; dispute evidence and outcome if any>
 preferences: <applied preferences and actual routing/checking;
               label each relaxed floor or removed review "by user preference">
 open blocking findings: <must be none for acceptance>

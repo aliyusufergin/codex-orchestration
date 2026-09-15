@@ -68,9 +68,10 @@ of realized settings. Keep the Parent's model and effort as the user selected.
    Run the [spawn audit](references/spawn-audit.md) for every planned subagent
    and apply its outcome rules before counting reviews. If a review is
    disqualified, run its replacement and audit again before acceptance.
-   Acceptance is blocked while any blocking finding is open. A correction is
-   bounded work and makes a new candidate subject to the plan's Scrutiny; direct execution
-   uses the same cost exception. Before accepting, confirm `git rev-parse HEAD`
+   Acceptance is blocked while any blocking finding is open. When a review returns
+   blocking findings, follow the [correction loop](references/corrections.md)
+   through correction, dispute or replanning and the resulting review before
+   returning here. Before accepting, confirm `git rev-parse HEAD`
    still equals the reviewed candidate and that the index and working tree have
    no changes to the candidate. Movement or edits invalidate that review for
    acceptance. Show the [acceptance report](references/reports.md) for the
