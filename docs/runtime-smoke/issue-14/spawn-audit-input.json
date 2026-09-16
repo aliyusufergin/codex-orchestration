@@ -1,0 +1,17 @@
+{
+  "start_time": "2026-09-16T03:45:02Z",
+  "cwd": "/tmp/codex-issue14-74o2zfxo/repair",
+  "parent_thread_id": "01a0a851-0923-7893-8c0c-dcb4a2863055",
+  "planned_subagents": [
+    {
+      "task_name": "/root/repair_invalid_input",
+      "requested_model": "gpt-5.6-luna",
+      "requested_effort": "medium"
+    },
+    {
+      "task_name": "/root/review_invalid_input",
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "high"
+    }
+  ]
+}

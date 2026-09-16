@@ -3,14 +3,14 @@
 A user-invoked Codex plugin for delegating bounded work to pinned native
 subagents, reviewing a candidate, and accepting it with evidence.
 
-The plan-to-acceptance path follows the
-[glossary](CONTEXT.md) and [design decisions](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
-for a single change at low, normal or high Consequence. Review requirements
-follow Consequence, and routing and checking preferences in the request or
-AGENTS.md shape the plan. Explicit preferences that weaken review are labelled
-in the acceptance report. Runs starting with uncommitted changes follow the
-[dirty-tree procedure](plugins/codex-orchestration/skills/orchestration/references/dirty-working-tree.md).
-Further execution paths are being implemented in subsequent tickets.
+It adds an execution layer to the workflows you already use, such as test-first
+development or code review. The Parent is your top-level session: it makes the
+decisions while subagents contribute bounded changes or evidence. A plan report
+explains the proposed work; an acceptance report identifies the result and the
+evidence behind it.
+
+The [orchestration skill](plugins/codex-orchestration/skills/orchestration/SKILL.md)
+is the source of execution rules. The [glossary](CONTEXT.md) explains the terms.
 
 ## Install
 
@@ -27,13 +27,38 @@ Start a fresh session at your chosen model and supported effort, and invoke:
 Use $codex-orchestration:orchestration to plan, build, verify, and review this work.
 ```
 
-The skill loads only when explicitly invoked. Its Codex UI metadata sets
-`policy.allow_implicit_invocation: false`.
+Invoke it alongside your chosen workflow or a concrete task. Installation alone
+does not opt subsequent tasks into orchestration.
 
-The Parent uses native subagents when the host exposes explicit model and reasoning
-effort controls. Requested settings are distinguished from confirmed runtime
-settings. See the [skill](plugins/codex-orchestration/skills/orchestration/SKILL.md)
-for the execution sequence and its contract, capability and report references.
+Use a host with native subagents and explicit model and effort controls, plus
+Python 3.10+ for the spawn audit. The audit reads local Codex session records;
+its evidence can be unavailable on a different host or after a record-format
+change. See the [audit documentation](plugins/codex-orchestration/scripts/spawn-audit.md)
+for its evidence and limitations.
+
+## Choosing the Parent's reasoning effort
+
+Lower effort can reduce the time spent reasoning in the Parent; higher effort
+gives it more room to think through ambiguous intent, architecture and conflicting
+evidence, at a possible cost in latency and reasoning tokens. The useful balance
+depends on your task. This project does not recommend a particular level.
+
+Avoid running the Parent at **Ultra**. In the host examined for this project,
+Ultra includes automatic task delegation, which can introduce subagents outside
+the explicit plan. The rationale and runtime evidence are in
+[ADR 0002](docs/adr/0002-only-the-parent-spawns-pinned-and-audited.md).
+
+## Design decisions
+
+The ADRs explain the choices and alternatives:
+
+- [Parent decision rights](docs/adr/0001-parent-keeps-decision-rights-not-activities.md)
+- [Pinned spawns and the spawn audit](docs/adr/0002-only-the-parent-spawns-pinned-and-audited.md)
+- [Composition with user-invoked workflows](docs/adr/0003-user-invoked-execution-layer-over-workflows.md)
+- [Routing and scrutiny](docs/adr/0004-routing-starts-cheap-and-only-the-scrutiny-floor-binds.md)
+- [Delegation and its cost](docs/adr/0005-bounded-work-is-delegated-by-default.md)
+- [Contracts instead of roles](docs/adr/0006-contracts-carry-properties-not-roles.md)
+- [Base commits, candidates and review](docs/adr/0007-candidates-are-parent-commits-before-review.md)
 
 ## Update
 
@@ -66,12 +91,19 @@ It also runs the JSON command tests for the
 [spawn audit](plugins/codex-orchestration/scripts/spawn-audit.md), which compares
 planned subagents with the host's session records and reports Parent effort.
 
+Before a release, follow the [release smoke checklist](docs/release-smoke-checklist.md)
+in a disposable repository and retain the observed results. Package checks alone
+do not establish live host behavior.
+
 ## Attribution
 
 Forked from [Astra Advisor](https://github.com/DannyMac180/astra-advisor) by Daniel
 McAteer, importing its Git history through `c72d328` (v0.2.0).
 **codex-orchestrator** (`8f559d6`, v0.4.0 unreleased) is a design reference for this
-fork; its code is not imported by this package change.
+fork; its code was not imported. Despite the similar names, **Codex Orchestration**
+(this repository and the `codex-orchestration` plugin) and **codex-orchestrator**
+are different projects. Astra Advisor is the upstream fork source; this plugin
+develops its own design through the ADRs above.
 
 Distributed under the [MIT license](LICENSE), retaining Daniel McAteer's copyright
 notice.

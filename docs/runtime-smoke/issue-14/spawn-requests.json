@@ -1,0 +1,20 @@
+[
+  {
+    "task_name": "/root/repair_invalid_input",
+    "model": "gpt-5.6-luna",
+    "reasoning_effort": "medium",
+    "fork_turns": "none",
+    "native_result": {
+      "task_name": "/root/repair_invalid_input"
+    }
+  },
+  {
+    "task_name": "/root/review_invalid_input",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "high",
+    "fork_turns": "none",
+    "native_result": {
+      "task_name": "/root/review_invalid_input"
+    }
+  }
+]
