@@ -129,18 +129,18 @@ class Session:
             error = {"path": str(self.path), "line": line_number, "reason": str(exc)}
             if error not in errors:
                 errors.append(error)
-        candidates = dict(starts)
-        for turn in turns:
-            when = timestamp(turn["timestamp"])
-            if when <= start:
-                candidates[turn["turn_id"]] = max(when, candidates.get(turn["turn_id"], when))
-        start_turn = max(candidates, key=candidates.get) if candidates else None
+        latest_start = max(starts.values()) if starts else None
+        start_turn = max(starts, key=starts.get) if starts else None
         reason = None
         if start_turn in ends:
             start_turn = None
-        elif start_turn is not None and start_turn not in starts:
+        # Contexts cannot reorder known starts, but an unidentified turn at the
+        # boundary prevents a complete claim about Parent coverage.
+        if any(turn["turn_id"] not in starts and turn["turn_id"] not in ends
+               and timestamp(turn["timestamp"]) <= start
+               and (latest_start is None or timestamp(turn["timestamp"]) >= latest_start)
+               for turn in turns):
             reason = "Cannot establish the Parent turn open at run start"
-            start_turn = None
         selected = [turn for turn in turns
                     if timestamp(turn["timestamp"]) >= start or turn["turn_id"] == start_turn]
         if start_turn is not None and not any(turn["turn_id"] == start_turn for turn in selected):

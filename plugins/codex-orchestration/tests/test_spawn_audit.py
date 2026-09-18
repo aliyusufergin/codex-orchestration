@@ -148,6 +148,24 @@ class SpawnAuditTests(unittest.TestCase):
         self.assertEqual([t["line"] for t in report["parent"]["turns"]], [3, 4])
         self.assertEqual(len({t["turn_id"] for t in report["parent"]["turns"]}), 1)
 
+    def test_start_turn_is_selected_by_start_event_not_context_order(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        historical = json.loads(json.dumps(rows[1:]))
+        for row in historical:
+            row["payload"]["turn_id"] = "historical-turn"
+        historical[0]["timestamp"] = "2026-09-16T03:44:38.331Z"
+        historical[1]["timestamp"] = "2026-09-16T03:44:38.331Z"
+        historical[2]["timestamp"] = "2026-09-16T03:44:38.331Z"
+        repeated = json.loads(json.dumps(historical[1]))
+        repeated["timestamp"] = "2026-09-16T03:45:01Z"
+        rows[2]["payload"]["effort"] = "ultra"
+        self.write_records("parent.jsonl", [rows[0]] + historical + rows[1:3] + [repeated, rows[3]])
+        report = self.audit()
+        self.assertEqual(report["parent"]["status"], "observable")
+        self.assertEqual([t["effort"] for t in report["parent"]["turns"]], ["ultra"])
+        self.assertIs(report["parent_ran_at_ultra"], True)
+
     def test_unestablished_start_does_not_hide_readable_ultra_later(self):
         self.use_issue14_seed()
         rows = self.read_records("parent.jsonl")
