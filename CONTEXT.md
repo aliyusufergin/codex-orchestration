@@ -14,6 +14,10 @@ _Avoid_: Astra (as a role name), orchestrator, root agent
 An agent session started by the Parent to carry out one piece of work.
 _Avoid_: delegate, child agent, descendant, worker, explorer, tester (as role names)
 
+**Run**:
+One use of orchestration for a user request, from the moment the Parent records its start through Acceptance.
+_Avoid_: session
+
 **Pinned spawn**:
 Starting a subagent with its model, its reasoning effort and a fresh context all stated explicitly.
 _Avoid_: dispatch, delegation call
@@ -26,7 +30,7 @@ The model and reasoning effort a session actually ran with, as recorded by the h
 _Avoid_: observed settings, actual settings, runtime pin
 
 **Spawn audit**:
-The acceptance-time read of the host's session records that compares every subagent's requested and realized settings, surfaces subagents that were not in the plan, and records the Parent's reasoning effort on each turn. Each subagent comes out confirmed, mismatch or unobservable.
+The acceptance-time read of the host's session records that compares every subagent's requested and realized settings, surfaces subagents that were not in the plan, and records the Parent's reasoning effort on each turn of the run, including the turn already under way when the run starts. Each subagent comes out confirmed, mismatch or unobservable.
 _Avoid_: settings check, routing proof
 
 **Parent-only run**:
@@ -190,3 +194,4 @@ _Avoid_: collision point, conflict step, checkpoint
 - "Mode" and "profile" named economy and balanced policy sets in codex-orchestrator. Resolved: there are no profiles; the user's routing and checking preferences are part of **Intent**.
 - "Verdict" named a single ship, fix-first or rethink outcome in both fork bases. Resolved: a **Review** returns **Findings**, and **Acceptance** stays with the **Parent**.
 - "Fixed point" is what Matt Pocock's code-review calls the commit a review compares against, and codex-orchestrator tracked uncommitted "revisions". Resolved: this context says **Base commit** and passes it as the fixed point to such workflows. A **Candidate** is normally a commit; the dirty-tree exception identifies it by a diff hash.
+- "Run start" named both the moment the Parent records it and the point from which the spawn audit counted Parent turns, which dropped the Parent turn already under way. Resolved: a **Run** starts when the Parent records its start, and that turn still belongs to the **Run**.
