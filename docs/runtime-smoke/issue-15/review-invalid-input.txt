@@ -1,0 +1,35 @@
+Fresh review: /root/review_invalid_input
+Requested and audited realized settings: gpt-5.6-terra / high; fork_turns none.
+Consequence normal; floor and effective requirement gpt-5.6-terra / high.
+Base: 06f58632b5ce58bf84d77c333dff04c99050a119
+Candidate: 0d0d377dc2fe05dbb567e8bc639899427f0c525d
+
+Findings: none.
+
+The candidate implements the requested behavior at spawn-audit.py:268-279: invalid JSON/validation errors still emit {"error": ...} and now return exit status 1. The public entrypoint calls SystemExit(main()), so that return value reaches the process status.
+
+The regression at test_spawn_audit.py:11-25 uses only stdlib subprocess, feeds malformed JSON to the public CLI, and asserts status 1, empty stderr, JSON-object stdout, and a nonempty error.
+
+Reviewer validation:
+python3 -B -m unittest -v test_spawn_audit.py
+exit=0
+Ran 1 test in 0.048s
+OK
+
+git diff 06f58632b5ce58bf84d77c333dff04c99050a119...0d0d377dc2fe05dbb567e8bc639899427f0c525d
+exit=0
+Shows exactly return 0 -> return 1 in exception path and new subprocess regression test.
+git diff --check on the same range: exit 0, no output.
+
+Read repair-pre-fix.txt: failure AssertionError: 0 != 1 while CLI emits JSON error.
+Read validation-post-fix.txt: same test passes; direct CLI status 1, JSON error stdout, empty stderr.
+
+Reviewer before-review observations:
+git rev-parse HEAD: exit 0, 0d0d377dc2fe05dbb567e8bc639899427f0c525d
+git status --porcelain=v1 --untracked-files=all: exit 0, empty
+git diff: exit 0, empty
+git diff --cached: exit 0, empty
+Reviewer after-review observations: identical HEAD; all three status/diff outputs empty, exit 0.
+Other commands: evidence-file reads exit 0, targeted source/test line inspection exit 0, git diff --check exit 0.
+
+Residual risk/evidence gaps: validation scoped to the new malformed-JSON subprocess case; no broader test suite identified or run. One-line status change leaves successful audit path unchanged. No typechecker configured.

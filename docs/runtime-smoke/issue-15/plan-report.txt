@@ -1,0 +1,31 @@
+PLAN REPORT
+base commit: 06f58632b5ce58bf84d77c333dff04c99050a119
+branch / working directory: smoke / /tmp/codex-issue15-_t6lzls3/repair
+run start: 2026-09-18T14:52:39Z
+starting tree: clean
+starting evidence: starting-observations.json
+host capacity: 4 slots; Parent occupies 1; 3 available. Native schema supports explicit model, effort, fork_turns none.
+Parent model note: no host indication requiring a non-Astra note; selected model and effort unchanged.
+work:
+  repair_invalid_input: repair seeded invalid-input exit code; stdlib subprocess regression asserts JSON error and status 1; demonstrate red before fix and green after.
+    write scope: spawn-audit.py, test_spawn_audit.py; evidence/repair-* and evidence/validation-* under authorized evidence directory
+    dependencies: none
+    Consequence: normal; incorrect CLI success can mask invalid audit requests
+    review requirement: required; snapshot and effective floor gpt-5.6-terra / high
+    requested settings: gpt-5.6-luna / medium; fork_turns: none
+    selection reason: cheapest eligible model at default effort
+    validation: python3 -B -m unittest -v test_spawn_audit.py; expect exit 1 before repair and exit 0 after; retain direct malformed-input CLI stdout/stderr/status
+integration check: not needed because only one change is planned
+review:
+  review_invalid_input: inspect committed diff and validation; return located blocking/non-blocking findings and residual risk
+    write scope: none
+    dependencies: repair_invalid_input validation and Parent candidate commit
+    Consequence: normal
+    requested settings: gpt-5.6-terra / high; fork_turns: none
+    selection reason: normal-Consequence scrutiny floor
+    independence: fresh context, no work on candidate
+    second review: not planned
+preferences: native pinned spawning only; stop smoke on unavailable pinning; CLI seam agreed; no typechecker configured; no optional questions; commit current branch, no push; evidence in /tmp/codex-issue15-_t6lzls3/evidence
+workflow: no additional discipline skill; Parent handles commit, fresh Review and Acceptance; implementation self-checks count as Validation only
+architecture: retain stdin/stdout JSON CLI; change invalid-input exit status to 1; stdlib subprocess black-box regression
+ direct execution: no implementation; Parent decision rights and evidence bookkeeping only

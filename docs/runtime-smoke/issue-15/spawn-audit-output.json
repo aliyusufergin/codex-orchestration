@@ -1,0 +1,63 @@
+{
+  "planned_subagents": [
+    {
+      "task_name": "repair_invalid_input",
+      "requested_model": "gpt-5.6-luna",
+      "requested_effort": "medium",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-luna",
+      "realized_effort": "medium",
+      "evidence": [
+        {
+          "path": "/home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-53-45-01a0b502-5a43-7b22-82ee-256b068ba040.jsonl",
+          "line": 8,
+          "thread_id": "01a0b502-5a43-7b22-82ee-256b068ba040",
+          "timestamp": "2026-09-18T14:53:47.163Z",
+          "turn_id": "01a0b502-5a72-7493-92b7-48ca336b09bc",
+          "model": "gpt-5.6-luna",
+          "effort": "medium"
+        }
+      ]
+    },
+    {
+      "task_name": "review_invalid_input",
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "high",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-terra",
+      "realized_effort": "high",
+      "evidence": [
+        {
+          "path": "/home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-55-58-01a0b504-6287-7553-a7b5-b94b7c8581ea.jsonl",
+          "line": 8,
+          "thread_id": "01a0b504-6287-7553-a7b5-b94b7c8581ea",
+          "timestamp": "2026-09-18T14:56:00.258Z",
+          "turn_id": "01a0b504-62ac-7541-8c45-b9fede5ffa25",
+          "model": "gpt-5.6-terra",
+          "effort": "high"
+        }
+      ]
+    }
+  ],
+  "unplanned_subagents": [],
+  "host_sessions": [],
+  "record_errors": [],
+  "parent": {
+    "thread_id": "01a0b501-1eb3-7921-b3ed-4247f5e3799b",
+    "turns": [
+      {
+        "path": "/home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-52-24-01a0b501-1eb3-7921-b3ed-4247f5e3799b.jsonl",
+        "line": 8,
+        "thread_id": "01a0b501-1eb3-7921-b3ed-4247f5e3799b",
+        "timestamp": "2026-09-18T14:52:26.543Z",
+        "turn_id": "01a0b501-1f38-79e2-b0b5-cdf585d5e1e0",
+        "model": "gpt-6-astra",
+        "effort": "high"
+      }
+    ],
+    "status": "observable"
+  },
+  "parent_ran_at_ultra": false
+}

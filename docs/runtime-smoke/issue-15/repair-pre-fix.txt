@@ -1,0 +1,31 @@
+Pre-fix regression validation
+
+Command:
+python3 -B -m unittest -v test_spawn_audit.py
+
+Exit status: 1
+
+Output:
+test_malformed_json_returns_error_object_and_status_one (test_spawn_audit.SpawnAuditInvalidInputTests.test_malformed_json_returns_error_object_and_status_one) ... FAIL
+
+======================================================================
+FAIL: test_malformed_json_returns_error_object_and_status_one (test_spawn_audit.SpawnAuditInvalidInputTests.test_malformed_json_returns_error_object_and_status_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/codex-issue15-_t6lzls3/repair/test_spawn_audit.py", line 21, in test_malformed_json_returns_error_object_and_status_one
+    self.assertEqual(result.returncode, 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.052s
+
+FAILED (failures=1)
+
+Direct CLI harness:
+python3 -B -c 'import subprocess,sys; r=subprocess.run([sys.executable,"-B","spawn-audit.py"],input="{\\n",text=True,capture_output=True); print("returncode:",r.returncode); print("stdout:",repr(r.stdout)); print("stderr:",repr(r.stderr)); raise SystemExit(r.returncode)'
+
+Harness exit status: 0
+returncode: 0
+stdout: '{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}\n'
+stderr: ''

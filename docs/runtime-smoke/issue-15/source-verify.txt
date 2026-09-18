@@ -1,0 +1,7 @@
+VERIFY PASSED
+manifest, marketplace, skill references, capability snapshot boundary, README links, license, attribution, user invocation, CI, and static-role boundaries are valid
+..............................
+----------------------------------------------------------------------
+Ran 30 tests in 3.819s
+
+OK

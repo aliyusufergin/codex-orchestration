@@ -1,0 +1,4 @@
+{
+  "command": "/bin/bash -lc \"pwd && git branch --show-current && git rev-parse HEAD && git status --short && rg --files -g AGENTS.md -g '*spawn-audit*' -g '*test*' -g 'SKILL.md'\"",
+  "exit_code": 0
+}

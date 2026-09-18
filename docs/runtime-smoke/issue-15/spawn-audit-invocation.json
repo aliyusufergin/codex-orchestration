@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "/home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/scripts/spawn-audit.py"
+  ],
+  "stdin": "spawn-audit-input.json",
+  "cwd": "/tmp/codex-issue15-_t6lzls3/repair",
+  "exit_status": 0
+}

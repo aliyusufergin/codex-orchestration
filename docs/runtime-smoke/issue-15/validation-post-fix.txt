@@ -1,0 +1,22 @@
+Post-fix validation
+
+Command:
+python3 -B -m unittest -v test_spawn_audit.py
+
+Exit status: 0
+
+Output:
+test_malformed_json_returns_error_object_and_status_one (test_spawn_audit.SpawnAuditInvalidInputTests.test_malformed_json_returns_error_object_and_status_one) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.052s
+
+OK
+
+Direct CLI harness command:
+python3 -B -c 'import subprocess,sys; r=subprocess.run([sys.executable,"-B","spawn-audit.py"],input="{\\n",text=True,capture_output=True); print("returncode:",r.returncode); print("stdout:",repr(r.stdout)); print("stderr:",repr(r.stderr)); raise SystemExit(r.returncode)'
+
+Harness exit status: 1
+returncode: 1
+stdout: '{"error": "Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"}\n'
+stderr: ''

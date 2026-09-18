@@ -1,0 +1,190 @@
+{
+  "starting": [
+    {
+      "command": "git rev-parse HEAD",
+      "exit_status": 0,
+      "stdout": "06f58632b5ce58bf84d77c333dff04c99050a119\n",
+      "stderr": ""
+    },
+    {
+      "command": "git branch --show-current",
+      "exit_status": 0,
+      "stdout": "smoke\n",
+      "stderr": ""
+    },
+    {
+      "command": "git status --porcelain=v1 --untracked-files=all",
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "git diff",
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "git diff --cached",
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "before_review": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_status": 0,
+      "stdout": "0d0d377dc2fe05dbb567e8bc639899427f0c525d\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_status": 0,
+      "stdout": "smoke\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "after_review": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_status": 0,
+      "stdout": "0d0d377dc2fe05dbb567e8bc639899427f0c525d\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_status": 0,
+      "stdout": "smoke\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "acceptance": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_status": 0,
+      "stdout": "0d0d377dc2fe05dbb567e8bc639899427f0c525d\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exit_status": 0,
+      "stdout": "smoke\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached"
+      ],
+      "exit_status": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

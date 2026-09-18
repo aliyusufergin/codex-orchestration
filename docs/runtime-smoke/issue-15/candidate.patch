@@ -1,0 +1,48 @@
+diff --git a/spawn-audit.py b/spawn-audit.py
+index 5aa391d..de93c2d 100644
+--- a/spawn-audit.py
++++ b/spawn-audit.py
+@@ -270,7 +270,7 @@ def main() -> int:
+         request = validate_request(json.load(sys.stdin))
+     except (ValueError, UnicodeError) as exc:
+         print(json.dumps({"error": str(exc)}))
+-        return 0
++        return 1
+     print(json.dumps(audit(request), indent=2))
+     return 0
+ 
+diff --git a/test_spawn_audit.py b/test_spawn_audit.py
+new file mode 100644
+index 0000000..8c2bea8
+--- /dev/null
++++ b/test_spawn_audit.py
+@@ -0,0 +1,29 @@
++import json
++from pathlib import Path
++import subprocess
++import sys
++import unittest
++
++
++SCRIPT = Path(__file__).with_name("spawn-audit.py")
++
++
++class SpawnAuditInvalidInputTests(unittest.TestCase):
++    def test_malformed_json_returns_error_object_and_status_one(self):
++        result = subprocess.run(
++            [sys.executable, "-B", str(SCRIPT)],
++            input="{\n",
++            text=True,
++            capture_output=True,
++            check=False,
++        )
++
++        self.assertEqual(result.returncode, 1)
++        self.assertEqual(result.stderr, "")
++        output = json.loads(result.stdout)
++        self.assertIsInstance(output, dict)
++        self.assertTrue(output.get("error"))
++
++
++if __name__ == "__main__":
++    unittest.main()

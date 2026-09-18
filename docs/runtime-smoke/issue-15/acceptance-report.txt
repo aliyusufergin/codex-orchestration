@@ -1,0 +1,35 @@
+ACCEPTANCE REPORT
+base commit: 06f58632b5ce58bf84d77c333dff04c99050a119
+candidate: 0d0d377dc2fe05dbb567e8bc639899427f0c525d
+branch: smoke
+candidate unchanged: before-review-observations.json, after-review-observations.json and acceptance-observations.json all show candidate HEAD, clean index/tree/untracked status, empty working and cached diffs, identical base-to-candidate diff; every observation command exited 0.
+user changes: not needed; clean starting tree retained in starting-observations.json.
+validation: repair agent ran python3 -B -m unittest -v test_spawn_audit.py; before repair exit 1, assertion 0 != 1; after repair exit 0, one test passes. Direct malformed JSON CLI emits JSON error and changes process status from 0 to 1, stderr empty. See repair-pre-fix.txt and validation-post-fix.txt. Fresh reviewer independently reran same test, exit 0, and diff whitespace check, exit 0. No typechecker configured.
+integration check: not needed because only one repair and its test were made.
+reviews: /root/review_invalid_input, fresh gpt-5.6-terra/high, findings none. Full separate findings and observations retained in review-invalid-input.txt. Residual risk: validation limited to malformed JSON regression; no broader suite identified or run.
+review skips: none
+second reviews: not run; normal Consequence requires one qualifying fresh review.
+correction history: none
+preferences: delegated implementation via native pinned spawn; normal Consequence; fresh review at required floor; CLI seam settled; no optional questions; committed on current branch; no push. All writes restricted to disposable repository and evidence directory. No review-floor exceptions.
+open blocking findings: none
+open non-blocking findings: none
+spawn audit:
+  command: python3 -B /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/scripts/spawn-audit.py < /tmp/codex-issue15-_t6lzls3/evidence/spawn-audit-input.json
+  run start: 2026-09-18T14:52:39Z
+  session directory: /tmp/codex-issue15-_t6lzls3/repair
+  exit status: 0; stderr empty
+  input/output/invocation: spawn-audit-input.json, spawn-audit-output.json, spawn-audit-invocation.json, spawn-audit-stderr.txt
+  /root/repair_invalid_input: requested gpt-5.6-luna/medium; realized gpt-5.6-luna/medium; confirmed.
+    source: /home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-53-45-01a0b502-5a43-7b22-82ee-256b068ba040.jsonl:8; timestamp 2026-09-18T14:53:47.163Z; turn 01a0b502-5a72-7493-92b7-48ca336b09bc.
+    effect: execution settings confirmed; no anomaly.
+  /root/review_invalid_input: requested gpt-5.6-terra/high; realized gpt-5.6-terra/high; confirmed.
+    source: /home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-55-58-01a0b504-6287-7553-a7b5-b94b7c8581ea.jsonl:8; timestamp 2026-09-18T14:56:00.258Z; turn 01a0b504-62ac-7541-8c45-b9fede5ffa25.
+    effect: review counts and meets both normal-Consequence floors.
+  unplanned subagents: none found
+  host approval sessions: none found by audit
+  record errors: none
+  Parent efforts:
+    2026-09-18T14:52:26.543Z: gpt-6-astra/high; source /home/dev/.codex/sessions/2026/09/18/rollout-2026-09-18T17-52-24-01a0b501-1eb3-7921-b3ed-4247f5e3799b.jsonl:8; turn 01a0b501-1f38-79e2-b0b5-cdf585d5e1e0.
+  Parent ran at Ultra: false; complete observable evidence.
+labels: none
+acceptance: accepted by Parent. Required failing/passing CLI regression evidence, committed candidate, qualifying fresh review, live spawn audit, and unchanged clean candidate checks are complete. Release smoke passed.

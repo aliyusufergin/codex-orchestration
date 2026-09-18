@@ -1,0 +1,22 @@
+{
+  "source": "c52fb326e04d7cc9069d5b0a2bc6a6d49a8e866c",
+  "version": "0.2.1",
+  "python": "3.14.4",
+  "root": "/tmp/codex-issue15-_t6lzls3",
+  "installed_files_matched": 25,
+  "date": "2026-09-18",
+  "codex": "0.154.0",
+  "source_verifier_exit_status": 0,
+  "smoke_exit_status": 0,
+  "control_exit_status": 0,
+  "installation": {
+    "marketplace_command": "codex plugin marketplace add /home/dev/projects/codex-orchestration",
+    "install_command": "codex plugin add codex-orchestration@codex-orchestration",
+    "marketplace_root": "/home/dev/projects/codex-orchestration",
+    "plugin_root": "/home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1",
+    "exit_statuses": [
+      0,
+      0
+    ]
+  }
+}
