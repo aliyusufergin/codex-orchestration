@@ -82,6 +82,11 @@ exit `1`. This is a deliberately seeded test fault, not a plugin bug.
   Scrutiny. Include unplanned subagents, host approval sessions, record errors,
   Parent efforts per turn and the Ultra result. If settings are unobservable,
   record the gap without turning it into a confirmed pinning result.
+  Check that the Parent turn open at the recorded start is included even if it
+  began earlier and ended later; retain its start/end metadata alongside its
+  contexts. Keep the original run start for subagent matching. If start/end
+  records cannot establish that turn, retain the unobservable boundary reason
+  and any readable in-run turns.
 - [ ] Check the acceptance report against its reference, including candidate
   identity, Validation, review findings, integration check or reason it was
   unnecessary, audit outcomes and applicable labels. Account for every failure
@@ -94,6 +99,12 @@ exit `1`. This is a deliberately seeded test fault, not a plugin bug.
   and review evidence, and links to failure issues. Retain the disposable
   candidate as a patch and the audit as JSON so `/tmp` cleanup does not erase the
   result. Publish only relevant metadata, never raw private session transcripts.
+  Rebuild record projections field by field and check their keys before committing:
+  retain only `timestamp`, `type`, `payload` on each line; `session_meta` payloads
+  may contain `id`, `timestamp`, `cwd`, `thread_source`, `parent_thread_id`,
+  `agent_path`, `source`; `turn_context` payloads may contain `turn_id`,
+  `root_turn_id`, `cwd`, `model`, `effort`, `sandbox_policy`; `task_started`,
+  `task_complete`, `turn_aborted` event payloads retain only `type`, `turn_id`.
 - [ ] Record the completed run on the release ticket, linking the committed
   evidence and every newly filed failure. State coverage limits explicitly.
 

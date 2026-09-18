@@ -102,6 +102,51 @@ class Session:
             errors.append({"path": str(self.path), "line": line_number, "reason": str(exc)})
         return result, errors
 
+    def parent_turns(self, start: datetime) -> tuple[list[dict], list[dict], str | None]:
+        """Include the Parent turn already open at start, without widening child matching."""
+        turns, errors = self.turns(timestamp(self.meta["timestamp"]))
+        starts = {}
+        ends = {}
+        line_number = 0
+        try:
+            with self.path.open(encoding="utf-8") as stream:
+                for line_number, line in enumerate(stream, 1):
+                    row = record(line)
+                    if line_number > 1 and row["type"] == "session_meta":
+                        break
+                    payload = row.get("payload")
+                    if row["type"] != "event_msg" or not isinstance(payload, dict):
+                        continue
+                    kind = payload.get("type")
+                    if kind not in ("task_started", "task_complete", "turn_aborted"):
+                        continue
+                    when = timestamp(row.get("timestamp"))
+                    if not nonempty(payload.get("turn_id")):
+                        raise ValueError("Turn boundary lacks turn id")
+                    if when <= start:
+                        (starts if kind == "task_started" else ends)[payload["turn_id"]] = when
+        except (OSError, UnicodeError, ValueError) as exc:
+            error = {"path": str(self.path), "line": line_number, "reason": str(exc)}
+            if error not in errors:
+                errors.append(error)
+        candidates = dict(starts)
+        for turn in turns:
+            when = timestamp(turn["timestamp"])
+            if when <= start:
+                candidates[turn["turn_id"]] = max(when, candidates.get(turn["turn_id"], when))
+        start_turn = max(candidates, key=candidates.get) if candidates else None
+        reason = None
+        if start_turn in ends:
+            start_turn = None
+        elif start_turn is not None and start_turn not in starts:
+            reason = "Cannot establish the Parent turn open at run start"
+            start_turn = None
+        selected = [turn for turn in turns
+                    if timestamp(turn["timestamp"]) >= start or turn["turn_id"] == start_turn]
+        if start_turn is not None and not any(turn["turn_id"] == start_turn for turn in selected):
+            reason = "No readable context for the Parent turn open at run start"
+        return selected, errors, reason
+
 
 def settings_report(turns: list[dict], errors: list[dict]) -> dict:
     models = {turn["model"] for turn in turns}
@@ -200,12 +245,20 @@ def audit(request: dict) -> dict:
         (host_sessions if session.is_guardian() else unplanned).append(item)
     parents = [session for session in sessions if session.meta["id"] == parent_id]
     has_work_subagents = any(not session.is_guardian() for session in children)
-    parent_turns, parent_errors = parents[0].turns(start) if len(parents) == 1 and has_work_subagents else ([], [])
+    parent_turns, parent_errors, parent_reason = parents[0].parent_turns(start) if len(parents) == 1 and has_work_subagents else ([], [], None)
     errors.extend(parent_errors)
     parent_report = {"thread_id": parent_id, "turns": parent_turns,
-                     "status": "observable" if parent_turns and not parent_errors else "unobservable"}
-    if not parent_turns or parent_errors:
-        parent_report["reason"] = "No work subagents found" if not has_work_subagents else "No unique Parent record with turns in this run"
+                     "status": "observable" if parent_turns and not parent_errors and not parent_reason else "unobservable"}
+    if parent_report["status"] == "unobservable":
+        if not has_work_subagents:
+            parent_reason = "No work subagents found"
+        elif len(parents) != 1:
+            parent_reason = "No unique Parent session record"
+        elif parent_errors:
+            parent_reason = parent_errors[0]["reason"]
+        elif not parent_reason:
+            parent_reason = "No readable Parent turn in the run"
+        parent_report["reason"] = parent_reason
     ultra = any(turn["effort"] == "ultra" for turn in parent_turns)
     return {"planned_subagents": planned, "unplanned_subagents": unplanned, "host_sessions": host_sessions,
             "record_errors": errors, "parent": parent_report,

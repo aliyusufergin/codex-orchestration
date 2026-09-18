@@ -67,8 +67,18 @@ all ambiguous candidates remain in `unplanned_subagents` because none can be
 uniquely assigned to the plan.
 
 `parent` contains its thread id, observable/unobservable status, and `turns`, each
-with model, effort and source evidence. Only turns at or after the run's start
-are included. `parent_ran_at_ultra` is `true` if any readable owning Parent turn
+with model, effort and source evidence. It includes the turn open at the recorded
+run start plus every later turn. The open turn is the latest turn recorded as
+started at or before that time, with no `task_complete` or `turn_aborted` recorded
+by then. An end recorded later does not exclude it. Its contexts are collected
+by `turn_id`, including contexts repeated by compaction. The recorded start stays
+unchanged for subagent matching, including the subagent's own creation boundary.
+
+If a Parent turn at or before the start exists but the host's start/end records
+cannot establish whether it was open, Parent coverage is `unobservable`.
+Readable in-run turns remain listed. Missing or ambiguous Parent identity has
+a different `reason` from a unique record with no readable Parent turn in the run.
+`parent_ran_at_ultra` is `true` if any readable owning Parent turn in the run
 ran at Ultra, `false` when complete readable Parent evidence contains no Ultra,
 and `null` when unknown. In accordance with ADR 0002, a run with no subagents has
 no Parent effort record, including a run containing only host guardians. An empty

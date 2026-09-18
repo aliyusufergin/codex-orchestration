@@ -84,13 +84,18 @@ task's coverage.
 
 The installed audit ran with the original plan start `2026-09-16T03:45:02Z`.
 Its [unaltered output](spawn-audit-output.json) cites the live record files and
-line numbers. The following minimal projections retain only owning metadata
-and turn settings, including the sandbox policy; they exclude conversation and
+line numbers. The following minimal projections retain only owning metadata,
+turn boundaries and turn settings, including the sandbox policy; they exclude conversation and
 instructions. Their line numbers differ from the live records:
 
 - [Parent](records/parent.jsonl)
 - [Repair subagent](records/repair_invalid_input.jsonl)
 - [Review subagent](records/review_invalid_input.jsonl)
+
+Issue #15 regenerated these projections field by field from the same live
+records using its explicit key allowlist, adding turn start/end events for the
+[before/after replay](../issue-15/README.md). The original input and output above
+remain unchanged.
 
 The Parent projection shows a readable `gpt-6-astra` / `high` turn beginning at
 `03:44:43.375Z`, before the plan's recorded start. The audit filtered it out.

@@ -1,6 +1,6 @@
 {
   "name": "codex-orchestration",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Delegate bounded work to pinned native Codex subagents and review committed candidates.",
   "author": {
     "name": "Codex Orchestration contributors"

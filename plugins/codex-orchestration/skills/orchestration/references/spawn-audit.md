@@ -96,9 +96,11 @@ record parser in the acceptance workflow.
 
 Supply the owning session directory even when a shell tool ran in a disposable
 repository: a `workdir` override does not relocate the session. A run begun
-mid-turn may have no Parent turn in its audit window. Preserve that gap rather
-than inferring Parent effort from requested subagent settings or backdating the
-run to fill it.
+mid-turn includes the Parent turn open at its recorded start, established from
+the host's turn start/end records as defined by the command interface. Preserve
+an unobservable result when those records cannot establish the boundary, and
+report any readable in-run turns. Keep the recorded run start unchanged; it also
+bounds subagent matching. Parent effort comes from its own record.
 
 The [runtime smoke and disposable-session completion](https://github.com/aliyusufergin/codex-orchestration/issues/3)
 record the evidence and limits. These source records demonstrate this host's

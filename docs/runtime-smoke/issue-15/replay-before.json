@@ -1,0 +1,54 @@
+{
+  "planned_subagents": [
+    {
+      "task_name": "repair_invalid_input",
+      "requested_model": "gpt-5.6-luna",
+      "requested_effort": "medium",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-luna",
+      "realized_effort": "medium",
+      "evidence": [
+        {
+          "path": "/home/dev/projects/codex-orchestration/docs/runtime-smoke/issue-14/records/repair_invalid_input.jsonl",
+          "line": 3,
+          "thread_id": "01a0a852-6386-77f3-a2e3-e4ecc66fd84a",
+          "timestamp": "2026-09-16T03:46:10.357Z",
+          "turn_id": "01a0a852-63b8-7233-b44a-0949dc169af7",
+          "model": "gpt-5.6-luna",
+          "effort": "medium"
+        }
+      ]
+    },
+    {
+      "task_name": "review_invalid_input",
+      "requested_model": "gpt-5.6-terra",
+      "requested_effort": "high",
+      "status": "confirmed",
+      "reason": null,
+      "realized_model": "gpt-5.6-terra",
+      "realized_effort": "high",
+      "evidence": [
+        {
+          "path": "/home/dev/projects/codex-orchestration/docs/runtime-smoke/issue-14/records/review_invalid_input.jsonl",
+          "line": 3,
+          "thread_id": "01a0a854-e1e3-7dd3-8d2a-fe65842408db",
+          "timestamp": "2026-09-16T03:48:52.331Z",
+          "turn_id": "01a0a854-e207-7e33-9ed8-70fb2d4931f5",
+          "model": "gpt-5.6-terra",
+          "effort": "high"
+        }
+      ]
+    }
+  ],
+  "unplanned_subagents": [],
+  "host_sessions": [],
+  "record_errors": [],
+  "parent": {
+    "thread_id": "01a0a851-0923-7893-8c0c-dcb4a2863055",
+    "turns": [],
+    "status": "unobservable",
+    "reason": "No unique Parent record with turns in this run"
+  },
+  "parent_ran_at_ultra": null
+}

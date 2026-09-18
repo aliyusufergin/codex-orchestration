@@ -56,6 +56,120 @@ class SpawnAuditTests(unittest.TestCase):
     def write_records(self, name, records):
         (self.root / name).write_text("".join(json.dumps(row) + "\n" for row in records))
 
+    def use_issue14_seed(self):
+        shutil.rmtree(self.root)
+        shutil.copytree(FIXTURES.parent / "issue-14", self.root)
+        self.request.update(
+            start_time="2026-09-16T03:45:02Z",
+            cwd="/tmp/codex-issue14-74o2zfxo/repair",
+            parent_thread_id="01a0a851-0923-7893-8c0c-dcb4a2863055",
+            planned_subagents=[
+                {"task_name": "repair_invalid_input", "requested_model": "gpt-5.6-luna",
+                 "requested_effort": "medium"},
+                {"task_name": "review_invalid_input", "requested_model": "gpt-5.6-terra",
+                 "requested_effort": "high"},
+            ],
+        )
+
+    def test_parent_turn_open_at_start_is_reported_even_when_it_ends_later(self):
+        self.use_issue14_seed()
+        report = self.audit()
+        self.assertEqual(report["parent"]["status"], "observable")
+        self.assertEqual([(turn["timestamp"], turn["model"], turn["effort"], turn["line"])
+                          for turn in report["parent"]["turns"]],
+                         [("2026-09-16T03:44:43.375Z", "gpt-6-astra", "high", 3)])
+        self.assertIs(report["parent_ran_at_ultra"], False)
+        self.assertEqual([task["status"] for task in report["planned_subagents"]],
+                         ["confirmed", "confirmed"])
+        self.assertEqual(report["record_errors"], [])
+
+    def test_unestablished_start_turn_keeps_readable_later_turns_but_ultra_unknown(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        later = json.loads(json.dumps(rows[2]))
+        later["timestamp"] = "2026-09-16T03:46:00Z"
+        later["payload"]["turn_id"] = "later-turn"
+        self.write_records("parent.jsonl", [rows[0], rows[2], later])
+        report = self.audit()
+        self.assertEqual(report["parent"]["status"], "unobservable")
+        self.assertEqual(report["parent"]["reason"], "Cannot establish the Parent turn open at run start")
+        self.assertEqual([t["turn_id"] for t in report["parent"]["turns"]], ["later-turn"])
+        self.assertIsNone(report["parent_ran_at_ultra"])
+
+    def test_ultra_start_turn_counts_before_a_later_spawning_turn(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        rows[2]["payload"]["effort"] = "ultra"
+        for multi_turn in (False, True):
+            with self.subTest(multi_turn=multi_turn):
+                if multi_turn:
+                    rows[3]["timestamp"] = "2026-09-16T03:45:10Z"
+                    later = json.loads(json.dumps(rows[1:]))
+                    for row in later:
+                        row["payload"]["turn_id"] = "spawning-turn"
+                    later[0]["timestamp"] = "2026-09-16T03:45:20Z"
+                    later[1]["timestamp"] = "2026-09-16T03:45:21Z"
+                    later[1]["payload"]["effort"] = "high"
+                    later[2]["timestamp"] = "2026-09-16T03:51:00Z"
+                    rows += later
+                self.write_records("parent.jsonl", rows)
+                report = self.audit()
+                self.assertEqual(report["parent"]["status"], "observable")
+                self.assertEqual([t["effort"] for t in report["parent"]["turns"]],
+                                 ["ultra", "high"] if multi_turn else ["ultra"])
+                self.assertIs(report["parent_ran_at_ultra"], True)
+
+    def test_ended_or_aborted_historical_turn_does_not_count(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        rows[2]["payload"]["effort"] = "ultra"
+        later = json.loads(json.dumps(rows[2]))
+        later["timestamp"] = "2026-09-16T03:46:00Z"
+        later["payload"].update(turn_id="later-turn", effort="high")
+        for end_kind in ("task_complete", "turn_aborted"):
+            for end_time in ("2026-09-16T03:45:01Z", self.request["start_time"]):
+                with self.subTest(end_kind=end_kind, end_time=end_time):
+                    rows[3]["timestamp"] = end_time
+                    rows[3]["payload"]["type"] = end_kind
+                    self.write_records("parent.jsonl", rows + [later])
+                    report = self.audit()
+                    self.assertEqual(report["parent"]["status"], "observable")
+                    self.assertEqual([t["turn_id"] for t in report["parent"]["turns"]], ["later-turn"])
+                    self.assertIs(report["parent_ran_at_ultra"], False)
+
+    def test_start_turn_contexts_are_collected_by_turn_id(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        compacted = json.loads(json.dumps(rows[2]))
+        compacted["timestamp"] = "2026-09-16T03:47:00Z"
+        self.write_records("parent.jsonl", rows[:3] + [compacted, rows[3]])
+        report = self.audit()
+        self.assertEqual(report["parent"]["status"], "observable")
+        self.assertEqual([t["line"] for t in report["parent"]["turns"]], [3, 4])
+        self.assertEqual(len({t["turn_id"] for t in report["parent"]["turns"]}), 1)
+
+    def test_unestablished_start_does_not_hide_readable_ultra_later(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        later = json.loads(json.dumps(rows[2]))
+        later["timestamp"] = "2026-09-16T03:46:00Z"
+        later["payload"].update(turn_id="later-turn", effort="ultra")
+        self.write_records("parent.jsonl", [rows[0], rows[2], later])
+        report = self.audit()
+        self.assertEqual(report["parent"]["status"], "unobservable")
+        self.assertIs(report["parent_ran_at_ultra"], True)
+
+    def test_missing_ambiguous_and_empty_parent_records_have_distinct_reasons(self):
+        self.use_issue14_seed()
+        rows = self.read_records("parent.jsonl")
+        self.write_records("duplicate_parent.jsonl", rows)
+        self.assertEqual(self.audit()["parent"]["reason"], "No unique Parent session record")
+        (self.root / "duplicate_parent.jsonl").unlink()
+        (self.root / "parent.jsonl").unlink()
+        self.assertEqual(self.audit()["parent"]["reason"], "No unique Parent session record")
+        self.write_records("parent.jsonl", rows[:1])
+        self.assertEqual(self.audit()["parent"]["reason"], "No readable Parent turn in the run")
+
     def test_mismatch_on_followup_preserves_both_realized_settings(self):
         rows = self.read_records("smoke_a.jsonl")
         rows[-1]["payload"].update(model="gpt-6-astra", effort="high")
@@ -203,7 +317,7 @@ class SpawnAuditTests(unittest.TestCase):
         old["timestamp"] = "2026-09-14T07:42:59Z"
         old["payload"].update(turn_id="old-turn", effort="ultra")
         self.write_records("parent.jsonl", rows + [old])
-        self.assertIs(self.audit()["parent_ran_at_ultra"], False)
+        self.assertIsNone(self.audit()["parent_ran_at_ultra"])
         current = json.loads(json.dumps(rows[1]))
         current["timestamp"] = "2026-09-14T07:45:00Z"
         current["payload"].update(turn_id="ultra-turn", effort="ultra")
