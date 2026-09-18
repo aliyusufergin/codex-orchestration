@@ -1,4 +1,4 @@
 {
-  "command": "/bin/bash -lc \"pwd && git branch --show-current && git rev-parse HEAD && git status --short && rg --files -g AGENTS.md -g '*spawn-audit*' -g '*test*' -g 'SKILL.md'\"",
+  "command": "/bin/bash -lc 'cat /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/skills/orchestration/SKILL.md /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/skills/orchestration/references/capability-snapshot.md /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/skills/orchestration/references/reports.md /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/skills/orchestration/references/contracts.md /home/dev/.codex/plugins/cache/codex-orchestration/codex-orchestration/0.2.1/skills/orchestration/references/spawn-audit.md'",
   "exit_code": 0
 }

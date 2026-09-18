@@ -41,7 +41,7 @@ Each row follows the [release checklist](../../release-smoke-checklist.md).
 | Disposable task | Pass; source audit copied, only invalid-input exit 1 seeded as 0; clean committed base on `smoke`. Evidence stayed outside the repository. |
 | Fresh owning session | Pass; Parent `01a0b501-1eb3-7921-b3ed-4247f5e3799b` and both subagents record the repair cwd in their [projections](records/parent.jsonl). |
 | Non-invoked control | Pass; [control observation](control.json), fresh thread `01a0b501-6162-7920-ae38-5628c7331d6d`, only `cat hello.txt`, no orchestration load or spawn, exit 0. |
-| Explicit invocation | Pass; [prompt](invocation.txt); [first completed command](skill-load.json) loaded the installed skill and references, exit 0. Smoke CLI exited 0. |
+| Explicit invocation | Pass; [prompt](invocation.txt); [skill-read command](skill-load.json) loaded the installed skill and references after initial repository discovery, exit 0. Smoke CLI exited 0. |
 | Plan before spawning | Pass; [plan report](plan-report.txt) recorded start `14:52:39Z`, base, branch, clean state, contracts, scopes, dependencies, normal Consequence, settings and scrutiny before the first spawn at `14:53:45.405Z`. |
 | Pinned calls | Pass; [native call metadata](spawn-calls.json) supplies explicit model, effort and `fork_turns: none`; [returned task paths](spawn-requests.json) match the plan. Contract text is represented by the plan; encrypted messages and raw transcripts are excluded. |
 | Runtime assumptions | Pass; Python and ordinary sandbox reads worked; live evidence uniquely matched both tasks by Parent, path, cwd and creation time. |
